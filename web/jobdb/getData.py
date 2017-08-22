@@ -7,7 +7,7 @@ by Sorapunya Insala
 """
 import requests
 from time import strptime
-import uploadData
+from project_end import uploadData
 from datetime import datetime, timedelta
 
 from bs4 import BeautifulSoup
@@ -28,8 +28,13 @@ def getData(jobs_links):
 
         #ชื่อบริษัท
         data=soup.select("h2.jobad-header-company")
+        cop_temp=""
+        job_detail['cop_name'] = '-'
         for i in data:
-            job_detail['cop_name'] = i.text.split("/")[0].strip()
+            cop_temp = i.text.replace(' ', '').strip()
+        if cop_temp != "":
+            job_detail['cop_name'] = cop_temp
+        print(cop_temp)
 
         #เวลาโพส
         data=soup.select("p.data-timestamp")
@@ -43,7 +48,7 @@ def getData(jobs_links):
         #ชื่ออาชีพ
         data=soup.select("h1.general-pos")
         for i in data:
-            job_detail['j_name'] = i.text.split("/")[0].split("(")[0].strip()
+            job_detail['j_name'] = i.text.strip()
 
         #หาสวัสดิการ
         if soup.select("div.meta-benefit"):
