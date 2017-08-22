@@ -21,7 +21,7 @@ def uploadToSql(jobs_detail):
         #sql='INSERT INTO main ( `j_name`, `cop_name`, `type`, `edu`, `loc`, `time`, `ben`, `jfunc`, `indus`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s")'% (i["j_name"],i["cop_name"],i["type"],i["edu"],i["loc"],i["time"],i["ben"],i["jfunc"],i["indus"])
         try:
             c.execute("SET NAMES utf8mb4;")
-            c.execute("""INSERT INTO main ( `j_name`, `cop_name`, `type`, `edu`, `loc`, `time`, `ben`, `jfunc`, `indus`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (i['j_name'],i['cop_name'],i['type'],i['edu'],i['loc'],i['time'],i['ben'],i['jfunc'],i['indus'],))
+            c.execute("""INSERT INTO main ( `j_name`, `cop_name`, `type`, `edu`, `loc`, `time`, `ben`, `jfunc`, `indus`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (i["""j_name"""],i["""cop_name"""],i["""type"""],i["""edu"""],i["""loc"""],i["""time"""],i["""ben"""],i["""jfunc"""],i["""indus"""],))
             db.commit()
         except Exception as e:
             print(i['index'])
