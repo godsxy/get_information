@@ -15,9 +15,10 @@ import getData
 ##  เก็บเลขหน้าของาน
 ####################################
 ## ถ้าจะเก็บข้อมูลทั้งหมดให้เปลี่ยน days = 31
+## =1
 yday=datetime.now() - timedelta(days=31)
 yday=yday.replace(hour=0, minute=0,second=0,microsecond=0)
-page = 13
+page = 1
 stopPls=0
 jobs_links=[]
 
@@ -49,6 +50,7 @@ while True:
             break
 
     if page==52:
+    #if page==52:
         break
     elif stopPls ==1:
         break
