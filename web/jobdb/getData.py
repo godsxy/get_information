@@ -33,7 +33,7 @@ def getData(jobs_links):
             cop_temp = i.text.replace(' ', '').strip()
         if cop_temp != "":
             job_detail['cop_name'] = cop_temp
-        print(cop_temp)
+        #print(cop_temp)
 
         #เวลาโพส
         data=soup.select("p.data-timestamp")
@@ -107,7 +107,6 @@ def getData(jobs_links):
                 j=j+1
         job_detail['jfunc']=tempjf
 
-        job_detail['index']=index
         if index % 50==0:
             print("ทำอันที่: "+ str(index))
         index = index+1

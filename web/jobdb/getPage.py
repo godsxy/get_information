@@ -16,7 +16,7 @@ import getData
 ####################################
 ## ถ้าจะเก็บข้อมูลทั้งหมดให้เปลี่ยน days = 31
 ## =1
-yday=datetime.now() - timedelta(days=31)
+yday=datetime.now() - timedelta(days=7)
 yday=yday.replace(hour=0, minute=0,second=0,microsecond=0)
 page = 1
 stopPls=0
@@ -33,26 +33,21 @@ while True:
         mon=strptime(TempDates[3:6],'%b').tm_mon
         postTime = "20"+TempDates.split("-")[2] +'-'+ str(mon) +'-'+TempDates.split("-")[0]
         R = datetime.strptime(postTime,'%Y-%m-%d')
-        if R == yday:
+        if R < yday:
             stopPls=1
+            print("i say Stop!!!")
             break
         else:
             sumList=sumList+1
     print(sumList)
     data=soup.select(".result-sherlock-cell .job-main .job-title")
     for i in data:
-        if sumList == 50:
-            jobs_links.append(i.find('a')['href'])
-        elif sumList > 0 :
+        if sumList > 0 :
             jobs_links.append(i.find('a')['href'])
             sumList=sumList-1
         else:
             break
-
-    if page==52:
-    #if page==52:
-        break
-    elif stopPls ==1:
+    if stopPls ==1:
         break
     else:
         page=page+1
