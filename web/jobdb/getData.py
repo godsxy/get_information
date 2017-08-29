@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 ThisFileDetail="""
 getData.py เอาไว้เก็บข้อมูลจากหน้าแสดงรายการงานเพียงหน้าเดียว( 1 page )และส่งไปยัง uploadData เพื่อนำขึ้น database
-Ver 1.0
 by Sorapunya Insala
 """
 import requests

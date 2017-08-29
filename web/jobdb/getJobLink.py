@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 ThisFileDetail="""
 getJobLink.py เอาไว้สำหรับเก็บลิ้งต่างๆที่จำเป็นต้องใช้
-Ver 1.0
 by Sorapunya Insala
 """
 import requests
