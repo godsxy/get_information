@@ -106,9 +106,9 @@ def getData(jobs_links):
             else:
                 j=j+1
         job_detail['jfunc']=tempjf
-
+        job_detail['index']=index
         if index % 50==0:
-            print("ทำอันที่: "+ str(index))
+            print("ดูดข้อมูลอาชีพลำดับที่: "+ str(index) +" เสร็จแล้ว")
         index = index+1
         #เพิ่มข้อมูลไปที่listหลักแล้วทำอันต่อไป
         jobs_detail.append(job_detail)

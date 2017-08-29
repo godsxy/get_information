@@ -6,6 +6,7 @@ Ver 1.0
 by Sorapunya Insala
 """
 import pymysql
+
 def uploadToSql(jobs_detail):
     c = None
     try:
@@ -16,7 +17,7 @@ def uploadToSql(jobs_detail):
         #print("db version: ", data)
     except :
         print("connect error")
-
+    print("ถึงนี่นะ")
     for i in jobs_detail:
         #sql='INSERT INTO main ( `j_name`, `cop_name`, `type`, `edu`, `loc`, `time`, `ben`, `jfunc`, `indus`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s")'% (i["j_name"],i["cop_name"],i["type"],i["edu"],i["loc"],i["time"],i["ben"],i["jfunc"],i["indus"])
         try:
@@ -24,10 +25,10 @@ def uploadToSql(jobs_detail):
             c.execute("""INSERT INTO main ( `j_name`, `cop_name`, `type`, `edu`, `loc`, `time`, `ben`, `jfunc`, `indus`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (i["""j_name"""],i["""cop_name"""],i["""type"""],i["""edu"""],i["""loc"""],i["""time"""],i["""ben"""],i["""jfunc"""],i["""indus"""],))
             db.commit()
         except Exception as e:
-            print(i['index'])
+            print("ลำดับข้อมูลอันที่ "+str(i['index'])+"มีปัญหา")
             db.rollback()
             print(e)
         if i['index']%50==0:
-            print(i['index'])
+            print("อัพข้อมูลลำดับที่ " + str(i['index']))
     if c:
         c.close()
