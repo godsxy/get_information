@@ -36,7 +36,7 @@ def getData(jobs_links):
         #print(cop_temp)
 
         #เวลาโพส
-        data=soup.select("p.data-timestamp")
+        data=soup.select("p[itemprop='datePosted']")
         for i in data:
             tempDates=i.text.strip()
             mon=strptime(tempDates[3:6],'%b').tm_mon
@@ -108,12 +108,12 @@ def getData(jobs_links):
         job_detail['jfunc']=tempjf
         job_detail['index']=index
         if index % 50==0:
-            print("ดูดข้อมูลอาชีพลำดับที่: "+ str(index) +" เสร็จแล้ว")
+            print("ดูดข้อมูลอาชีพลำดับที่: " + str(index) + " เสร็จแล้ว")
         index = index+1
         #เพิ่มข้อมูลไปที่listหลักแล้วทำอันต่อไป
         jobs_detail.append(job_detail)
     #############################################
     #############################################
     #print(jobs_detail)
+    print("ได้เวลาอัพขึ้นฐานข้อมูลแล้ว!!!!")
     uploadData.uploadToSql(jobs_detail)
-
