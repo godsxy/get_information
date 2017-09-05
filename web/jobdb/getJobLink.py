@@ -18,7 +18,7 @@ jobs_links=[]
 data=soup.select("div[id='jobBrowserTabBody0'] li.browse-job-category div.job-category-wrapper")
 j=0
 for i in data:
-    jobs_links.append('http://th.jobsdb.com/th'+i.find('a')['href'].rsplit('/',1)[0]+'/')
+    jobs_links.append('http://th.jobsdb.com'+i.find('a')['href'].rsplit('/',1)[0]+'/')
     j=j+1
 print("เจอทั้งหมด "+str(j)+ " อาชีพ")
 for i in jobs_links:
