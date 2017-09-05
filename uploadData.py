@@ -17,7 +17,6 @@ def uploadToSql(jobs_detail):
         #print("db version: ", data)
     except :
         print("connect error")
-    print("ถึงนี่นะ")
     for i in jobs_detail:
         #sql='INSERT INTO main ( `j_name`, `cop_name`, `type`, `edu`, `loc`, `time`, `ben`, `jfunc`, `indus`) VALUES ("%s","%s","%s","%s","%s","%s","%s","%s","%s")'% (i["j_name"],i["cop_name"],i["type"],i["edu"],i["loc"],i["time"],i["ben"],i["jfunc"],i["indus"])
         try:
