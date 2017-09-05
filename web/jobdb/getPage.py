@@ -7,6 +7,7 @@ by Sorapunya Insala
 """
 from datetime import datetime, timedelta
 from time import strptime
+import time
 import requests
 from bs4 import BeautifulSoup
 from project_end.web.jobdb import getData
@@ -27,7 +28,15 @@ def getPage(jobLink):
     while True:
         sumList = 0
         url_to_scrape=jobLink+str(page)
-        r = requests.get(url_to_scrape)
+        while True:
+            try:
+                r = requests.get(url_to_scrape)
+                break
+            except:
+                print("มีปัญหากลับไปรีเควสใหม่")
+                print("ที่ลิ้ง: "+str(url_to_scrape))
+                time.sleep(30)
+                continue
         soup = BeautifulSoup(r.text,"lxml")
         data=soup.select("meta[itemprop='datePosted']")
         for i in data:
