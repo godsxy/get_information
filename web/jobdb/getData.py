@@ -8,7 +8,7 @@ import requests
 from time import strptime
 from project_end import uploadData
 from datetime import datetime, timedelta
-
+import time
 from bs4 import BeautifulSoup
 
 ####################################
