@@ -21,7 +21,16 @@ def getData(jobs_links):
     index = 1
     for job_link in jobs_links:
         #print(job_link)
-        r = requests.get(job_link)
+
+        while True:
+            try:
+                r = requests.get(job_link)
+                break
+            except:
+                print("มีปัญหากลับไปรีเควสใหม่")
+                print("ที่ลิ้ง: "+str(job_link))
+                time.sleep(30)
+                continue
         soup = BeautifulSoup(r.text,"lxml")
         job_detail={}
 
