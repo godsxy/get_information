@@ -31,3 +31,6 @@ def uploadToSql(jobs_detail):
             print("อัพข้อมูลลำดับที่ " + str(i['index']))
     if c:
         c.close()
+    print("------------------")
+    print("------------------")
+    print("------------------")
