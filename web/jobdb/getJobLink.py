@@ -21,7 +21,9 @@ for i in data:
     jobs_links.append('http://th.jobsdb.com'+i.find('a')['href'].rsplit('/',1)[0]+'/')
     j=j+1
 print("เจอทั้งหมด "+str(j)+ " อาชีพ")
+index_page=1
 for i in jobs_links:
-    print("ลิ้งอาชีพที่ทำอยู่ "+i)
+    print("ลิ้งอาชีพที่ทำอยู่ "+i +"อันที่ "+ str(index_page))
     getPage.getPage(i)
+    index_page=index_page+1
 
