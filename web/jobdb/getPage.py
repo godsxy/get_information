@@ -41,9 +41,9 @@ def getPage(jobLink):
         data=soup.select("meta[itemprop='datePosted']")
         for i in data:
             TempDates = i.get('content')
-            mon=strptime(TempDates[3:6],'%b').tm_mon
-            postTime = "20"+TempDates.split("-")[2] +'-'+ str(mon) +'-'+TempDates.split("-")[0]
-            R = datetime.strptime(postTime,'%Y-%m-%d')
+            #mon=strptime(TempDates[5:7],'%m').tm_mon
+            #postTime = "20"+TempDates.split("-")[2] +'-'+ str(mon) +'-'+TempDates.split("-")[0]
+            R = datetime.strptime(TempDates[0:10],'%Y-%m-%d')
             if R < yday:
                 stopPls=1
                 break
