@@ -55,7 +55,7 @@ def getData(jobs_links):
         if data == []:
             data=soup.select("h3[itemprop='jobLocation'] a")
         for i in data:
-            job_detail['loc'] = i.text.strip()
+            job_detail['loc'] = i.text.split(" >")[0].strip()
 
         #รายละเอียด
         data=soup.select("div.jobad-primary-details")
