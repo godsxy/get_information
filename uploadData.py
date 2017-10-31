@@ -12,8 +12,8 @@ def uploadToSql(jobs_detail):
     try:
         db = pymysql.connect(host='localhost', user='root', passwd='123456789', db='job_data',charset='utf8',use_unicode=True)
         c = db.cursor()
-        c.execute("SELECT VERSION()")
-        data = c.fetchone()
+        #c.execute("SELECT VERSION()")
+        #data = c.fetchone()
     except :
         print("connect error")
     for i in jobs_detail:
