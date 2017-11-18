@@ -60,7 +60,6 @@
                 margin-right: 2%;
             }
     </style>
-    <!-- it's right menu part -->
     <style>
         /* The side navigation menu */
             .sidenav {
@@ -112,7 +111,6 @@
                 .sidenav a {font-size: 18px;}
             }
     </style>
-    <!-- end -->
     </head>
     <body>
         <div id="mySidenav" class="sidenav">
@@ -134,38 +132,5 @@
         <script src="./system.js"></script>
         <script src="./province.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7bPUBMzGNhJi-lju4_zyV-0eVAj8PBnk&callback=initMap"></script>
-        <script>
-            var dataCounty=[];
-        </script>
-        <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "123456789";
-            $dbname = "job_data";
-
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            } 
-
-            $sql = "SELECT name FROM list_pro WHERE have='1'";
-            $result = $conn->query($sql);
-            if ($result->num_rows > 0) {
-                // output data of each row
-                while($row = $result->fetch_assoc()) {
-                    //echo trim($row["name"]);
-                    ?>
-                    <script>
-                        dataCounty.push(String("<?php echo(trim($row["name"]));?>"))
-                    </script>
-                    <?php
-                }
-            } else {
-                echo "ไม่เจอ";
-            }
-            $conn->close();
-        ?>
     </body>
 </html>
