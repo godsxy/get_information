@@ -12,3 +12,4 @@ $(".closebtn").click(function closeNav() {
 $("#overlay").click(function off() {
     document.getElementById("overlay").style.display = "none";
 });
+

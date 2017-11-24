@@ -2,10 +2,13 @@
 	setting data
  */
 
+$(document).ready(function() {
+    initMap();
+});
+
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 9,
-    center: mapName("Surat Thani")
     });
     infoWindow = new google.maps.InfoWindow;
     // Try HTML5 geolocation.
@@ -16,9 +19,9 @@ function initMap() {
                   lng: position.coords.longitude
                 };
 
-                //infoWindow.setPosition(pos);
-                //infoWindow.setContent('Location found.');
-                //infoWindow.open(map);
+                infoWindow.setPosition(pos);
+                infoWindow.setContent("You're Here");
+                infoWindow.open(map);
                 map.setCenter(pos);
               }, function() {
                 handleLocationError(true, infoWindow, map.getCenter());
@@ -33,16 +36,23 @@ function initMap() {
     	position: mapName(dataCounty[i]),
     	title: dataCounty[i],
     	map: map,
-    	name: dataCounty[i],
-    	id: i
+    	name: dataCounty[i]
     	});
-        //console.log(mapName(dataCounty[i]));
-        /*google.maps.event.addListener(marker,'click',function() {
-            console.log(marker.get("name"))
-        });*/
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-              console.log(marker.get("name"));
+              $.ajax({
+                    url: 'ResultMap.php?MapName='+marker.get("name"),
+                    dataType: 'html',
+                    type: 'GET',
+                })
+                .done(function() {
+                    document.getElementById('MFM').src = 'ResultMap.php?MapName='+marker.get("name");
+                    $(myModal).modal('show');
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
             }
           })(marker, i));
 
@@ -71,6 +81,7 @@ function mapName(name) {
 	var AmnatCharoen={lat:15.86568,lng:104.62578},
 	AngThong={lat:14.58961,lng:100.45505},
 	Ayutthaya={lat:14.35321,lng:100.56896},
+    AroundBangkok={lat:13.733263,lng:100.703071},
 	Bangkok={lat:13.75633,lng:100.50177},
 	BuengKan={lat:18.36091,lng:103.64645},
 	BuriRam={lat:14.993,lng:103.10292},
@@ -144,8 +155,7 @@ function mapName(name) {
 	UthaiThani={lat:15.3835,lng:100.02455},
 	Uttaradit={lat:17.62009,lng:100.09929},
 	Yala={lat:6.54115,lng:101.28039},
-	Yasothon={lat:15.79264,lng:104.14528},
-	Others={lat:19.712680,lng:102.425151};
+	Yasothon={lat:15.79264,lng:104.14528};
 
     switch(name){
         case"Amnat Charoen":
@@ -153,6 +163,9 @@ function mapName(name) {
                 break;
         case"Ang Thong":
             return AngThong;
+                break;
+        case"AroundBangkok":
+            return AroundBangkok;
                 break;
         case"Ayutthaya":
             return Ayutthaya;
@@ -177,7 +190,7 @@ function mapName(name) {
                 break;
         case"Chanthaburi":
             return Chanthaburi;
-                break; 
+                break;
         case"Chiang Mai":
             return ChiangMai;
                 break;
@@ -207,7 +220,7 @@ function mapName(name) {
                 break;
         case"Lampang":
             return Lampang;
-                break; 
+                break;
         case"Lampoon":
             return Lampoon;
                 break;
@@ -380,7 +393,7 @@ function mapName(name) {
         	return Yasothon;
                 break;
         default:
-        	return Others;
+            break;
 
     }
 }
