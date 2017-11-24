@@ -51,11 +51,17 @@ def getData(jobs_links):
         #print(cop_temp)
 
         #สถานที่
+        AllLocation=["Amnat Charoen","Ang Thong","Ayutthaya","Bangkok","Bueng Kan","Buri Ram","Chachoengsao","Chai Nat","Chaiyaphum","Chanthaburi","Chiang Mai","Chiang Rai","ChonBuri","Chumphon","Kalasin","Kamphaeng Phet","Kanchanaburi","Khon Kaen","Krabi","Lampang","Lampoon","Loei","LopBuri","Mae Hong Son","Maha Sarakham","Mukdahan","Nakhon Pathom","Nakhon Phanom","Nakhon Ratchasima","Nakhon Sawan","Nakhon Si Thammarat","Nakornnayok","Nan","Narathiwat","Nong Bua Lamphu","Nong Khai","Nonthaburi","PathumThani","Pattani","Petchaburi","Phangnga","Phatthalung","Phayao","Phetchabun","Phichit","Phitsanulok","Phrachinburi","Phrae","Phuket","Prachuap Khiri Khan","Rajchaburi","Ranong","Rayong","Roi Et","Sa Kaeo","Sakon Nakhon","Samut Sakhon","Samut Songkhram","Samutprakarn","Saraburi","Satun","Si Sa Ket","SingBuri","Songkhla","Sukhothai","SuphanBuri","Surat Thani","Surin","Tak","Trang","Trat","Ubon Ratchathani","Udon Thani","Uthai Thani","Uttaradit","Yala","Yasothon"];
+        tempLoc=""
         data=soup.select("p[itemprop='jobLocation']")
         if data == []:
             data=soup.select("h3[itemprop='jobLocation'] a")
         for i in data:
-            job_detail['loc'] = i.text.split(" >")[0].strip()
+            tempLoc = i.text.split(" >")[0].strip()
+        if tempLoc not in AllLocation:
+            job_detail['loc'] = "AroundBangkok"
+        else:
+            job_detail['loc'] = tempLoc
 
         #รายละเอียด
         data=soup.select("div.jobad-primary-details")
@@ -91,16 +97,9 @@ def getData(jobs_links):
 
         #ประเภทงาน
         data=soup.select("div.meta-jobfunction p a")
-        j=0
-        tempjf=""
         for i in data:
-            if j%2 == 0:
-                if i.text.strip() not in tempjf:
-                    tempjf = tempjf + i.text.strip() + " :::"
-                j=j+1
-            else:
-                j=j+1
-        job_detail['jfunc']=tempjf
+            job_detail['jfunc']=i.text.strip()
+            break
 
         #ประเภทธุรกิจ
         data=soup.select("div.meta-industry p[itemprop='industry']")
