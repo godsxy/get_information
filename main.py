@@ -5,8 +5,10 @@ main.py ไฟล์หลักที่ใช้เริ่มการทำ
 by Sorapunya Insala
 """
 
-from project_end.web.jobdb import getJobLink
-from project_end import fillterProvince
+#from project_end.web.jobdb import getJobLink
+from project_end import getJobFunc
 
 #getJobLink
-fillterProvince
+print("Information Gathering...DONE")
+getJobFunc
+print("UPDATE JobFunction List...DONE")
