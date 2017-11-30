@@ -19,7 +19,8 @@ def uploadToSql(jobs_detail):
     for i in jobs_detail:
         try:
             c.execute("SET NAMES utf8mb4;")
-            c.execute("""INSERT INTO main (`j_name`, `cop_name`, `loc`, `detail`, `level`, `edu`, `type`, `jfunc`, `indus`, `time`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)""", (i["""j_name"""],i["""cop_name"""],i["""loc"""],i["""detail"""],i["""lv"""],i["""edu"""],i["""type"""],i["""jfunc"""],i["""indus"""],i["""time"""],))
+            sql = """INSERT INTO main (`j_name`, `cop_name`, `loc`, `detail`, `level`, `edu`, `type`, `jfunc`, `indus`, `time`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+            c.execute(sql, (i["""j_name"""],i["""cop_name"""],i["""loc"""],i["""detail"""],i["""lv"""],i["""edu"""],i["""type"""],i["""jfunc"""],i["""indus"""],i["""time"""],))
             db.commit()
         except Exception as e:
             print("ลำดับข้อมูลอันที่ "+str(i['index'])+"มีปัญหา")
