@@ -64,9 +64,10 @@ def getData(jobs_links):
             job_detail['loc'] = tempLoc
 
         #รายละเอียด
-        data=soup.select("div.jobad-primary-details")
+        data=soup.select("div.jobad-primary-details span[itemprop='description']")
         for i in data:
-            job_detail['detail'] = i.text.strip()
+            #print("<br>".join(i.text.strip().replace('\xa0','').splitlines()))
+            job_detail['detail'] = "<br>".join(i.text.strip().replace('\xa0','').splitlines())
 
         #หาระดับพนักงาน
         if soup.select("b.primary-meta-lv"):
@@ -107,13 +108,16 @@ def getData(jobs_links):
             job_detail['indus'] = i.text.strip()
 
         #เวลาโพส
-        data=soup.select("meta[itemprop='datePosted']")
-        for i in data:
-            tempDates=i.get('content')
-            #mon=strptime(tempDates[3:6],'%b').tm_mon
-            #tempDate= "20"+ tempDates[7:9] + "-" + str(mon) +"-"+ tempDates[0:2]
-            R = datetime.strptime(tempDates[0:10],'%m/%d/%Y')
-            job_detail['time'] = R
+        try:
+            data=soup.select("meta[itemprop='datePosted']")
+            for i in data:
+                tempDates=i.get('content')
+                #mon=strptime(tempDates[3:6],'%b').tm_mon
+                #tempDate= "20"+ tempDates[7:9] + "-" + str(mon) +"-"+ tempDates[0:2]
+                R = datetime.strptime(tempDates[0:10],'%m/%d/%Y')
+                job_detail['time'] = R
+        except:
+            print("มีปัญหาที่เวลา")
 
         job_detail['index']=index
         if index % 50==0:
