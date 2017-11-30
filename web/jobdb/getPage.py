@@ -16,10 +16,14 @@ from project_end.web.jobdb import getData
 ##  เก็บเลขหน้าของาน
 ####################################
 ## ถ้าจะเก็บข้อมูลย้อนหลังกี่วันให้เปลี่ยนตัวเลขที่ days
+## ดีเล 1 วัน max = 28
 ##
 
 def getPage(jobLink):
-    yday=datetime.now() - timedelta(days=1)
+    days=8
+    yday=datetime.now() - timedelta(days)
+    tday=datetime.now()
+    tday=tday.replace(hour=0, minute=0,second=0,microsecond=0)
     yday=yday.replace(hour=0, minute=0,second=0,microsecond=0)
     page = 1
     sumjob=0
@@ -47,6 +51,8 @@ def getPage(jobLink):
             if R < yday:
                 stopPls=1
                 break
+            elif R == tday:
+                pass
             else:
                 sumList=sumList+1
                 sumjob=sumjob+1
