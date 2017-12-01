@@ -142,7 +142,7 @@
         ?>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn">&times;</a>
-            <h2 style="color: #FFFFFF;"><center>Custom Search</center></h2><hr>
+            <h2 style="color: #FFFFFF;"><center>Advanced Search</center></h2><hr>
             <form id="sert" name="sert" method="POST">
                 <h3 style="color: #FFFFFF;margin-left: 10px;">Province</h3>
                 <!-- drop down -->
@@ -176,7 +176,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <span id="btn-nav" class="glyphicon glyphicon-menu-hamburger pull-right justMenu" style="font-size: 24px;"><b>Menu</b></span>
+                <span id="btn-nav" class="glyphicon glyphicon-menu-hamburger pull-right justMenu" style="font-size: 24px;"><b>Search</b></span>
                 <div id="map" style="border: 2px solid #000000;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
             </div>
         </div>
@@ -223,9 +223,6 @@
               <div style="padding: 0 0 0 0;height: 650px" class="modal-body">
                 <iframe id="MFM" style="width: 100%;height: 100%" frameBorder="0"  src=""></iframe>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
             </div>
 
           </div>
@@ -251,6 +248,7 @@
         </div>
         <script>
             $(submit).click(function(event){
+                document.getElementById('MFS').src = "load.php";
                 var pv,jf;
                 pv = document.getElementById("SLpv").value;
                 jf = document.getElementById("SLjfunc").value;
@@ -269,6 +267,7 @@
                 .fail(function() {
                     console.log("error");
                 })
+                
             });
         </script>
         <!-- END -->

@@ -30,6 +30,12 @@
 			}
 		?>
 		<?php
+			$pagelen  = 10;
+			 if (isset($_GET['page'])) {
+			 	$page = $_GET['page'];
+			 } else {
+			 	$page = 1;
+			 }
 			if($_GET['jf'] != ""){
                 			$sql = "SELECT `name` FROM `job_func` WHERE id=".$_GET['jf'];
 	                		$BuJF = $conn->query($sql);
@@ -38,23 +44,28 @@
 			                }
 			                if($_GET['pv'] != ""){
 			                	$pv=$_GET['pv'];
-			                	$sql = "SELECT `id`,`j_name`, `cop_name`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 AND `loc`='$pv' AND `jfunc`='$JFname' ORDER BY `j_name`";
+			                	$sql = "SELECT `id`,`j_name`, `cop_name`,`time`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 AND `loc`='$pv' AND `jfunc`='$JFname' ORDER BY `time` DESC,`j_name`";
 			                }
 			                else{
-			                	$sql = "SELECT `id`,`j_name`, `cop_name`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 AND `jfunc`='$JFname' ORDER BY `loc`";
+			                	$sql = "SELECT `id`,`j_name`, `cop_name`,`time`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 AND `jfunc`='$JFname' ORDER BY `time` DESC,`loc`";
 			                }
                 		}
                 		else{
                 			if($_GET['pv'] != ""){
                 				$pv=$_GET['pv'];
-                				$sql = "SELECT `id`,`j_name`, `cop_name`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 AND `loc`='$pv' ORDER BY `jfunc`";
+                				$sql = "SELECT `id`,`j_name`, `cop_name`,`time`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 AND `loc`='$pv' ORDER BY `time` DESC,`jfunc`";
                 			}
                 			else{
-                				$sql = "SELECT `id`,`j_name`, `cop_name`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 ";
+                				$sql = "SELECT `id`,`j_name`, `cop_name`,`time`, `loc`, `jfunc`, `indus` FROM `main` WHERE `out_date`=0 ORDER BY `time` DESC,`loc`,`jfunc`,`j_name`";
                 			}
                 		}
-                		$result = $conn->query($sql);
-                		if ($result->num_rows > 0) {
+                		$query = $conn->query($sql);
+                		$NumCount = mysqli_num_rows($query);
+                		$totalPage= ceil($NumCount / $pagelen);
+                		$goto = ($page-1) * $pagelen;
+                		$SelectData = $sql." LIMIT $goto, $pagelen";
+                		$QueryData  = $conn->query($SelectData);
+                		if ($QueryData->num_rows > 0) {
 		?>
 							<div class="table-responsive">
 								<table class="table table-hover" id="mainTable">
@@ -65,11 +76,12 @@
 					                        <th>Job Function</th>
 					                        <th>Industry</th>
 					                        <th>Location</th>
+					                        <th>Time</th>
 					                    </tr>
 					                </thead>
 					                <tbody>
 					                	<?php
-					                			while($row = $result->fetch_assoc()) {
+					                			while($row = mysqli_fetch_assoc($QueryData)) {
 					                	?>
 								                    <tr onclick="document.location = 'detail.php?id= <?php echo $row['id'] ?>';">
 									                    <td style='max-width: 250px;table-layout: fixed;word-wrap: break-word;cursor:pointer'><?php echo $row['j_name'] ?> </td>
@@ -77,6 +89,7 @@
 									                    <td style='max-width: 100px;table-layout: fixed;word-wrap: break-word;cursor:pointer'><?php echo $row['jfunc']?></td>
 									                    <td style='max-width: 150px;table-layout: fixed;word-wrap: break-word;cursor:pointer'><?php echo $row['indus']?></td>
 									                    <td style='max-width: 90px;table-layout: fixed;word-wrap: break-word;cursor:pointer'><?php echo $row['loc']?></td>
+									                    <td style='max-width: 90px;table-layout: fixed;word-wrap: break-word;cursor:pointer'><?php echo $row['time']?></td>
 								                    </tr>
 					<?php
 								                }
@@ -87,6 +100,25 @@
 	                ?>
                 </tbody>
 			</table>
+			<ul class="pagination">
+			<li>
+			<?php
+				if ($page >1) {
+					$back = $page-1;
+					echo "<a style='margin-left: 5px' href=$PHP_SELF?page=".$back."&jf=".$JFname."&pv=".$pv."><span aria-hidden='true'>&laquo;</span></a>";
+				}
+			?>
+			</li>
+			<li><?php echo "<span style='margin-left: 5px' aria-hidden='true'>".$page; ?></li>
+			<li>
+			<?php
+				if($page < $totalPage) {
+				    $next = $page +1;
+				    echo "<a style='margin-left: 5px' href=$PHP_SELF?page=".$next."><span aria-hidden='true'>&raquo;</span></a>";
+				}
+			?>
+			</li>
+			</ul>
 		</div>
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery.js"></script>

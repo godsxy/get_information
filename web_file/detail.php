@@ -36,28 +36,34 @@
 			while($row = $result->fetch_assoc()) {
 		?>
 		<div class="container-fluid">
+			<div class="row">
+				<button type="button" style="margin-top: 10px;" class="btn btn-default pull-right" onclick="history.go(-1);">Back</button>
+			</div>
+			<div class="row">
+				<hr>
+			</div>
 			<div class="table-responsive">
 				<table class="table">
 					<tbody>
-						<tr>
+						<tr style="background-color: #D2D2D2">
 							<th>Jobname:</th>
 						</tr>
 						<tr>
 							<td><?php echo $row['j_name'] ?></td>
 						</tr>
-						<tr>
+						<tr style="background-color: #D2D2D2">
 							<th>Corporation:</th>
 						</tr>
 						<tr>
 							<td><?php echo $row['cop_name'] ?></td>
 						</tr>
-						<tr>
+						<tr style="background-color: #D2D2D2">
 							<th>Location:</th>
 						</tr>
 						<tr>
 							<td><?php echo $row['loc'] ?></td>
 						</tr>
-						<tr>
+						<tr style="background-color: #D2D2D2">
 						        <th>Detail:</th>
 						</tr>
 						<tr>
@@ -68,7 +74,7 @@
 			</div>
 			<table class="table table-bordered">
 				<tbody>
-					<tr>
+					<tr style="background-color: #EFEFEF;">
 						<td style="width: 130px;border-right: 1px">Career Level:</td>
 						<td><?php echo $row['level'] ?></td>
 					</tr>
@@ -76,7 +82,7 @@
 						<td style="width: 130px;">Qualification:</td>
 						<td><?php echo $row['edu'] ?></td>
 					</tr>
-					<tr>
+					<tr style="background-color: #EFEFEF;">
 						<td style="width: 130px;">Industry:</td>
 						<td><?php echo $row['indus'] ?></td>
 					</tr>
@@ -84,15 +90,15 @@
 						<td style="width: 130px;">Jobfunction:</td>
 						<td><?php echo $row['jfunc'] ?></td>
 					</tr>
-					<tr>
+					<tr style="background-color: #EFEFEF;">
 						<td style="width: 130px;">Type:</td>
 						<td><?php echo $row['type'] ?></td>
 					</tr>
 					
 				</tbody>
 			</table>
-			<?php } ?>
-			<button onclick="history.go(-1);">Back </button>
+			<?php } ?><hr>
+			<button type="button" style="margin-bottom: 10px;" class="btn btn-default pull-right" onclick="history.go(-1);">Back</button>
 		</div>
 		
 		<!-- jQuery -->

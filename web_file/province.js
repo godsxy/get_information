@@ -40,6 +40,7 @@ function initMap() {
     	});
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
+                document.getElementById('MFM').src = "load.php";
               $.ajax({
                     url: 'ResultMap.php?MapName='+marker.get("name"),
                     dataType: 'html',
