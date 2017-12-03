@@ -20,7 +20,7 @@ from project_end.web.jobdb import getData
 ##
 
 def getPage(jobLink):
-    days=8
+    days=1
     yday=datetime.now() - timedelta(days)
     tday=datetime.now()
     tday=tday.replace(hour=0, minute=0,second=0,microsecond=0)

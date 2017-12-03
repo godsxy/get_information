@@ -114,10 +114,13 @@ def getData(jobs_links):
                 tempDates=i.get('content')
                 #mon=strptime(tempDates[3:6],'%b').tm_mon
                 #tempDate= "20"+ tempDates[7:9] + "-" + str(mon) +"-"+ tempDates[0:2]
-                R = datetime.strptime(tempDates[0:10],'%m/%d/%Y')
+                if tempDates[4] == '/':
+                    R = datetime.strptime(tempDates[0:9],'%m/%d/%Y')
+                else:
+                    R = datetime.strptime(tempDates[0:10],'%m/%d/%Y')
                 job_detail['time'] = R
-        except:
-            print("มีปัญหาที่เวลา")
+        except BaseException as e:
+            print(str(e))
 
         job_detail['index']=index
         if index % 50==0:
