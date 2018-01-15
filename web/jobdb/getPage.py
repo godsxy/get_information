@@ -11,12 +11,13 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from project_end.web.jobdb import getData
+import math
 
 ####################################
 ##  เก็บเลขหน้าของาน
 ####################################
 ## ถ้าจะเก็บข้อมูลย้อนหลังกี่วันให้เปลี่ยนตัวเลขที่ days
-## ดีเล 1 วัน max = 28
+## ดีเล 1 วัน max = 28 ( THAT DAY - TODAY)
 ##
 
 def getPage(jobLink):
@@ -26,9 +27,26 @@ def getPage(jobLink):
     tday=tday.replace(hour=0, minute=0,second=0,microsecond=0)
     yday=yday.replace(hour=0, minute=0,second=0,microsecond=0)
     page = 1
+    maxpage=0
     sumjob=0
     stopPls=0
     jobs_links=[]
+    while True:
+            try:
+                r = requests.get(jobLink)
+                break
+            except:
+                print("มีปัญหาการหาจำนวนหน้าสูงสุด")
+                print("ที่ลิ้ง: "+str(jobLink))
+                time.sleep(30)
+                continue
+    soup = BeautifulSoup(r.text,"lxml")
+    data=soup.select("h1 span[id='firstLineCriteriaContainer'] em")
+    for i in data:
+        maxpage = int(i.text.strip())/50
+        maxpage = math.ceil(maxpage)
+        print(maxpage)
+
     while True:
         sumList = 0
         url_to_scrape=jobLink+str(page)
@@ -49,6 +67,9 @@ def getPage(jobLink):
             #postTime = "20"+TempDates.split("-")[2] +'-'+ str(mon) +'-'+TempDates.split("-")[0]
             R = datetime.strptime(TempDates[0:10],'%Y-%m-%d')
             if R < yday:
+                stopPls=1
+                break
+            elif page > maxpage:
                 stopPls=1
                 break
             elif R == tday:
