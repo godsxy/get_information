@@ -75,6 +75,19 @@
     </style>
     <!-- it's right menu part -->
     <style>
+            /* The alert message box */
+            .alertPJf {
+                padding: 20px;
+                background-color: #f44336; /* Red */
+                color: white;
+                margin-bottom: 15px;
+                display: none;
+            }
+
+            /* When moving the mouse over the close button */
+            .closebtn:hover {
+                color: black;
+            }
         /* The side navigation menu */
             .sidenav {
                 height: 100%; /* 100% Full-height */
@@ -128,18 +141,7 @@
     <!-- end -->
     </head>
     <body>
-        <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "123456789";
-            $dbname = "job_data";
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-        ?>
+        <?php include("connect.php") ?>
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn">&times;</a>
             <h2 style="color: #FFFFFF;"><center>Advanced Search</center></h2><hr>
@@ -162,24 +164,32 @@
                 <select name="SLjfunc" id="SLjfunc" class="form-control" style="margin-left: 10px;width: 220px">
                     <option value="">-- All --</option>
                     <?php
-                        $sql = "SELECT id,name FROM job_func ORDER BY name";
+                        $sql = "SELECT DISTINCT(jfunc) FROM main WHERE out_date='0' ORDER BY jfunc";
                         $result = $conn->query($sql);
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='".$row["id"]."'>".$row["name"]."</option>";
+                            echo "<option value='".$row["jfunc"]."'>".$row["jfunc"]."</option>";
                         }
                     ?>
                 </select>
                 <!-- end here -->
                 <br>
                 <center><button id="submit" name="SubmitButton" type="button" class="btn btn-success" style="width: 150px; font-size: 16px;"><b>SUBMIT</b></button></center>
+                <br><div class="alertPJf" id="alertPJf" onclick="this.style.display='none';">
+                  Too Many Data Please Select <b>Province</b> or <b>Job function</b>.
+                </div>
             </form>
         </div>
+<!------------------------------------------------ MAIN    -------------------------------------------->
         <div class="container">
             <div class="row">
-                <span id="btn-nav" class="glyphicon glyphicon-menu-hamburger pull-right justMenu" style="font-size: 24px;"><b>Search</b></span>
+                <span id="" class="glyphicon glyphicon-stats justMenu" style="font-size: 24px;"><b>Statistic </b></span>
+                <span id="btn-nav" class="glyphicon glyphicon-search pull-right justMenu" style="font-size: 24px;"><b>Search</b>&nbsp</span>
+            </div>
+            <div class="row">
                 <div id="map" style="border: 2px solid #000000;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
             </div>
         </div>
+<!----------------------------------------------------------------------------------------------------->
         <div id="overlay" onclick="off()">
             <div id="title-name">JobsDB Map</div>
         </div>
@@ -212,19 +222,17 @@
         ?>
         <!-- ModalJobList -->
         <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-xl" style="height: 90%;"">
-
-            <!-- Modal content-->
+          <div class="modal-dialog modal-xl" style="height: 90%;">
+            <!-- Modal content -->
             <div class="modal-content"  style="height: 100%;">
-              <div class="modal-header" style="background-color: #B5B5B5">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><center style="font-size: 24px;color: #FFFFFF;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Jobs List</center></h4>
-              </div>
-              <div style="padding: 0 0 0 0;height: 650px" class="modal-body">
-                <iframe id="MFM" style="width: 100%;height: 100%" frameBorder="0"  src=""></iframe>
-              </div>
+                <div class="modal-header" style="background-color: #B5B5B5">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title"><center style="font-size: 24px;color: #FFFFFF;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Jobs List</center></h4>
+                </div>
+                <div style="padding: 0 0 0 0;height: 650px" class="modal-body">
+                  <iframe id="MFM" style="width: 100%;height: 100%" frameBorder="0"  src=""></iframe>
+                </div>
             </div>
-
           </div>
         </div>
         <!-- END -->
@@ -246,28 +254,54 @@
 
           </div>
         </div>
+
+        <!-- Modalstatic -->
+        <div id="ModalForStatic" class="modal fade" role="dialog">
+          <div class="modal-dialog modal-xl" style="height: 90%;">
+
+            <!-- Modal content-->
+            <div class="modal-content" style="height: 100%;">
+              <div class="modal-header" style="background-color: #B5B5B5">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><center style="font-size: 24px;color: #FFFFFF;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">RESULT</center></h4>
+              </div>
+              <div style="padding: 0 0 0 0;height: 650px" class="modal-body">
+                <iframe id="MFS" style="width: 100%;height: 100%" frameBorder="0"  src=""></iframe>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
         <script>
             $(submit).click(function(event){
                 document.getElementById('MFS').src = "load.php";
                 var pv,jf;
                 pv = document.getElementById("SLpv").value;
                 jf = document.getElementById("SLjfunc").value;
-                //document.getElementById("bodyModalForS").innerHTML = "จังหวัด: "+pv +"สายอาชีพ: " + jf;
-                console.log(pv +" "+ jf)
-                $.ajax({
-                    url: 'tableResult.php?pv='+pv+'&jf='+jf,
-                    dataType: 'html',
-                    type: 'GET',
-                })
-                .done(function() {
-                    document.getElementById('MFS').src = 'tableResult.php?pv='+pv+'&jf='+jf;
-                    $(ModalForS).modal('show');
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                
+                Apjf = document.getElementById("alertPJf");
+                if (pv+jf == "") {
+                  console.log("เห้ยใส่ด้วย");
+                  Apjf.style.display = "block";
+                }else {
+                  //document.getElementById("bodyModalForS").innerHTML = "จังหวัด: "+pv +"สายอาชีพ: " + jf;
+                  console.log(pv +" "+ jf)
+                  $.ajax({
+                      url: 'tableResult.php?pv='+pv+'&jf='+jf,
+                      dataType: 'html',
+                      type: 'GET',
+                  })
+                  .done(function() {
+                      document.getElementById('MFS').src = 'tableResult.php?pv='+pv+'&jf='+jf;
+                      $(ModalForS).modal('show');
+                      console.log("success");
+                  })
+                  .fail(function() {
+                      console.log("error");
+                  })
+                }
+
+
             });
         </script>
         <!-- END -->
