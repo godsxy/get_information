@@ -6,9 +6,6 @@ by Sorapunya Insala
 """
 
 from project_end.web.jobdb import getJobLink
-from project_end import getJobFunc
 
 getJobLink
 print("Information Gathering...DONE")
-getJobFunc
-print("UPDATE JobFunction List...DONE")
