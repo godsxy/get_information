@@ -17,22 +17,11 @@
 		<![endif]-->
 	</head>
 	<body>
-		<?php
-			$servername = "localhost";
-			$username = "root";
-			$password = "123456789";
-			$dbname = "job_data";
-			// Create connection
-			$conn = new mysqli($servername, $username, $password, $dbname);
-			// Check connection
-			if ($conn->connect_error) {
-			    die("Connection failed: " . $conn->connect_error);
-			}
-		?>
+		<?php include("connect.php") ?>
 		<?php
 				$pagelen  = 10;
 				if (isset($_GET['page'])) {
-					$page = $_GET['page'];
+					$page = (int)$_GET['page'];
 				} else {
 					$page = 1;
 				}
@@ -83,18 +72,18 @@
 		 <li>
 		 <?php
 		 	if ($page >1) {
-		 		$back = $page-1;
-		 		echo "<a style='margin-left: 5px' href=$PHP_SELF?page=".$back."&MapName=".$MapName."><span aria-hidden='true'>&laquo;</span></a>";
-		 	}
+		 		$back = $page-1;?>
+		 		<a style='margin-left: 5px' href='<?php echo $PHP_SELF ?>?page=<?php echo $back ?>&MapName=<?php echo $MapName ?>'><span aria-hidden='true'>&laquo;</span></a>
+		 	<?php }
 		 ?>
 		 </li>
 		 <li><?php echo "<span style='margin-left: 5px' aria-hidden='true'>".$page."</span>"; ?></li>
 		 <li>
 		 <?php
 		 	if($page < $totalPage) {
-		 	    $next = $page +1;
-		 	    echo "<a style='margin-left: 5px' href=$PHP_SELF?page=".$next."&MapName=".$MapName."><span aria-hidden='true'>&raquo;</span></a>";
-		 	}
+		 	    $next = $page +1; ?>
+					<a style='margin-left: 5px' href='<?php echo $PHP_SELF ?>?page=<?php echo $next ?>&MapName=<?php echo $MapName ?>'><span aria-hidden='true'>&raquo;</span></a>
+		 <?php	}
 		 ?>
 		 </li>
 		 </ul>
