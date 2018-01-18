@@ -17,18 +17,7 @@
 		<![endif]-->
 	</head>
 	<body>
-		<?php
-			$servername = "localhost";
-			$username = "root";
-			$password = "123456789";
-			$dbname = "job_data";
-			// Create connection
-			$conn = new mysqli($servername, $username, $password, $dbname);
-			// Check connection
-			if ($conn->connect_error) {
-			    die("Connection failed: " . $conn->connect_error);
-			}
-		?>
+		<?php include("connect.php") ?>
 		<?php
 			$detailID = $_GET['id'];
 			$sql = "SELECT * FROM `main` WHERE id=".$detailID;
@@ -94,13 +83,13 @@
 						<td style="width: 130px;">Type:</td>
 						<td><?php echo $row['type'] ?></td>
 					</tr>
-					
+
 				</tbody>
 			</table>
 			<?php } ?><hr>
 			<button type="button" style="margin-bottom: 10px;" class="btn btn-default pull-right" onclick="history.go(-1);">Back</button>
 		</div>
-		
+
 		<!-- jQuery -->
 		<script src="//code.jquery.com/jquery.js"></script>
 		<!-- Bootstrap JavaScript -->
