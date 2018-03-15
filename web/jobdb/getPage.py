@@ -7,6 +7,7 @@ by Sorapunya Insala
 """
 from datetime import datetime, timedelta
 from time import strptime
+from datetime import datetime
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -16,12 +17,11 @@ import math
 ####################################
 ##  เก็บเลขหน้าของาน
 ####################################
-## ถ้าจะเก็บข้อมูลย้อนหลังกี่วันให้เปลี่ยนตัวเลขที่ days
-## ดีเล 1 วัน max = 29 ( THAT DAY - TODAY)
+##  day max = 29
 ##
 
-def getPage(jobLink):
-    days=1
+def getPage(jobLink,orderPage,orderMax):
+    days=29
     yday=datetime.now() - timedelta(days)
     tday=datetime.now()
     tday=tday.replace(hour=0, minute=0,second=0,microsecond=0)
@@ -45,7 +45,6 @@ def getPage(jobLink):
     for i in data:
         maxpage = int(i.text.strip())/50
         maxpage = math.ceil(maxpage)
-        print(maxpage)
 
     while True:
         sumList = 0
@@ -77,7 +76,7 @@ def getPage(jobLink):
             else:
                 sumList=sumList+1
                 sumjob=sumjob+1
-        print("หน้าที่: "+str(page) + "  มีจำนวนอาชีพ: "+str(sumList))
+        print("หน้าที่: "+str(page) + "/"+str(maxpage)+"  มีจำนวนอาชีพ: "+str(sumList))
         data=soup.select(".result-sherlock-cell .job-main .job-title")
         for i in data:
             if sumList > 0 :
@@ -93,4 +92,4 @@ def getPage(jobLink):
 
     #print(len(jobs_links))
     print("เริ่มทำการดูดข้อมูลมีทั้งหมด "+str(sumjob)+" อาชีพ")
-    getData.getData(jobs_links)
+    getData.getData(jobs_links,orderPage,orderMax)
