@@ -6,28 +6,17 @@ Ver 1.0
 by Sorapunya Insala
 """
 import pymysql
+from project_end import conDB
 
 def uploadToSql(jobs_detail):
-    c = None
-    try:
-        db = pymysql.connect(host='localhost', user='root', passwd='123456789', db='job_data',charset='utf8',use_unicode=True)
-        c = db.cursor()
-        #c.execute("SELECT VERSION()")
-        #data = c.fetchone()
-    except :
-        print("connect error")
+    db=conDB.conDB()
+    c = db.cursor()
     for i in jobs_detail:
         try:
             c.execute("SET NAMES utf8mb4;")
             sql = """INSERT INTO main (`j_name`, `cop_name`, `loc`, `detail`, `level`, `edu`, `type`, `jfunc`, `indus`, `time`) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-            #เช็คข้อมูลซ้ำ
-            CKsql = """SELECT * FROM main WHERE `j_name`=%s AND `cop_name`=%s AND `loc`=%s AND`time`=%s"""
-            CKExis = c.execute(CKsql,(i["""j_name"""],i["""cop_name"""],i["""loc"""],i["""time"""],))
-            if CKExis:
-                print("ซ้ำ...")
-            else:
-                c.execute(sql, (i["""j_name"""],i["""cop_name"""],i["""loc"""],i["""detail"""],i["""lv"""],i["""edu"""],i["""type"""],i["""jfunc"""],i["""indus"""],i["""time"""],))
-                db.commit()
+            c.execute(sql, (i["""j_name"""],i["""cop_name"""],i["""loc"""],i["""detail"""],i["""lv"""],i["""edu"""],i["""type"""],i["""jfunc"""],i["""indus"""],i["""time"""],))
+            db.commit()
         except Exception as e:
             print("ลำดับข้อมูลอันที่ "+str(i['index'])+"มีปัญหา")
             db.rollback()
