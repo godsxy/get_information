@@ -26,8 +26,6 @@ def get_idInDB(data,table):
         c.execute(sql,(data))
         getID = c.fetchall()
         if getID:
-            if c:
-                c.close()
             return getID[0][0]
         else:
             try:
@@ -35,6 +33,7 @@ def get_idInDB(data,table):
                     return "004broken004"
                 c.execute(sql2,(data))
                 db.commit()
+                print("Add new "+ table)
                 errorLen+=1
                 continue
             except:
@@ -56,7 +55,47 @@ def get_copName(soup):
         return get_idInDB('-',"cop_name")
 
 def get_loc(soup):
-    AllLocation=["Amnat Charoen","Ang Thong","Ayutthaya","Bangkok","Bueng Kan","Buri Ram","Chachoengsao","Chai Nat","Chaiyaphum","Chanthaburi","Chiang Mai","Chiang Rai","ChonBuri","Chumphon","Kalasin","Kamphaeng Phet","Kanchanaburi","Khon Kaen","Krabi","Lampang","Lampoon","Loei","LopBuri","Mae Hong Son","Maha Sarakham","Mukdahan","Nakhon Pathom","Nakhon Phanom","Nakhon Ratchasima","Nakhon Sawan","Nakhon Si Thammarat","Nakornnayok","Nan","Narathiwat","Nong Bua Lamphu","Nong Khai","Nonthaburi","PathumThani","Pattani","Petchaburi","Phangnga","Phatthalung","Phayao","Phetchabun","Phichit","Phitsanulok","Phrachinburi","Phrae","Phuket","Prachuap Khiri Khan","Rajchaburi","Ranong","Rayong","Roi Et","Sa Kaeo","Sakon Nakhon","Samut Sakhon","Samut Songkhram","Samutprakarn","Saraburi","Satun","Si Sa Ket","SingBuri","Songkhla","Sukhothai","SuphanBuri","Surat Thani","Surin","Tak","Trang","Trat","Ubon Ratchathani","Udon Thani","Uthai Thani","Uttaradit","Yala","Yasothon"];
+    AllLocation=["Ang Thong"
+,"Ayutthaya"
+,"Bangkok"
+,"Chachoengsao"
+,"Chai Nat"
+,"Chiang Mai"
+,"Chiang Rai"
+,"Chonburi"
+,"Chumphon"
+,"Kanchanaburi"
+,"Khon Kaen"
+,"Krabi"
+,"Lampang"
+,"Lampoon"
+,"Lopburi"
+,"Mae Hong Son"
+,"Nakhon Ratchasima"
+,"Nakhon Si Thammarat"
+,"Nakornnayok"
+,"Nakornsawan"
+,"Nonthaburi"
+,"Pathumthani"
+,"Petchaburi"
+,"Phitsanulok"
+,"Phrachinburi"
+,"Phuket"
+,"Prachuap Khiri Khan"
+,"Rajchaburi"
+,"Rayong"
+,"Samutprakarn"
+,"Samutsongkhram"
+,"Saraburi"
+,"Singburi"
+,"Songkhla"
+,"Suphanburi"
+,"Surat Thani"
+,"Tak"
+,"Ubon Ratchathani"
+,"Udon Thani"
+,"Yala"
+,"Yasothon"];
     tempLoc=""
     data=soup.select("p[itemprop='jobLocation']")
     if data == []:
@@ -136,18 +175,20 @@ def ck_exist(cop,loc,time,jfunc):
     c = db.cursor()
     sql = """ SELECT id FROM main WHERE `cop_name`=%s AND `loc`=%s AND `time`=%s AND `jfunc`=%s"""
     found = c.execute(sql,(cop,loc,time,jfunc))
-    if c:
-        c.close()
     return found
 
-def getData(jobs_links,orderPage,orderMax):
+def getData(jobs_links,orderPage,orderMax,ODay):
     jobs_detail=[]
+    overDay=ODay
     #for job_link in jobs_links[35:38]:
     index = 1
     MaxDuplicate=0
-    for job_link in jobs_links:
-        #print(job_link)
-
+    skip=0
+    for job_link in reversed(jobs_links):
+        if(overDay>1):
+            overDay-=1
+            index = index+1
+            continue
         while True:
             try:
                 r = requests.get(job_link)
@@ -186,12 +227,9 @@ def getData(jobs_links,orderPage,orderMax):
 
         ##ใช้ข้อมูลแค่นี้ในการตรวจเช็ตการซ้ำ
         if(ck_exist(job_detail['cop_name'],job_detail['loc'],job_detail['time'],job_detail['jfunc'])):
-            print("ซ้ำ")
+            index += 1
             MaxDuplicate+=1
-            if(MaxDuplicate >= 10):
-                break
-            else:
-                MaxDuplicate=0
+            print("Progress: " +orderPage+"/"+orderMax+" ::: "+ str(index) + "/"+str(len(jobs_links))+" ซ้ำ "+ str(MaxDuplicate)+" ครั้ง")
             continue
         #####################
         #####ถ้าผ่านไปนี่แปลว่าไม่มีซ้ำ
@@ -214,7 +252,7 @@ def getData(jobs_links,orderPage,orderMax):
         job_detail['indus'] = get_indus(soup)
 
         job_detail['index']=index
-        print("Progress: " +orderPage+"/"+orderMax+" ::: "+ str(index) + "/"+str(len(jobs_links))+" เสร็จแล้ว. ซ้ำ: "+str(MaxDuplicate))
+        print("Progress: " +orderPage+"/"+orderMax+" ::: "+ str(index) + "/"+str(len(jobs_links))+" เสร็จแล้ว.")
         index = index+1
         #เพิ่มข้อมูลไปที่listหลักแล้วทำอันต่อไป
         jobs_detail.append(job_detail)
