@@ -6,8 +6,6 @@ Ver 1.0
 by Sorapunya Insala
 """
 from datetime import datetime, timedelta
-from time import strptime
-from datetime import datetime
 import time
 import requests
 from bs4 import BeautifulSoup
@@ -17,11 +15,11 @@ import math
 ####################################
 ##  เก็บเลขหน้าของาน
 ####################################
-##  day max = 29
+##
 ##
 
-def getPage(jobLink,orderPage,orderMax):
-    days=29
+def getPage(jobLink,orderPage,orderMax,day,overDay):
+    days=day
     yday=datetime.now() - timedelta(days)
     tday=datetime.now()
     tday=tday.replace(hour=0, minute=0,second=0,microsecond=0)
@@ -92,4 +90,4 @@ def getPage(jobLink,orderPage,orderMax):
 
     #print(len(jobs_links))
     print("เริ่มทำการดูดข้อมูลมีทั้งหมด "+str(sumjob)+" อาชีพ")
-    getData.getData(jobs_links,orderPage,orderMax)
+    getData.getData(jobs_links,orderPage,orderMax,overDay)
