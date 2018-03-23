@@ -41,6 +41,7 @@ function initMap() {
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
                 document.getElementById('MFM').src = "load.php";
+                $(myModal).modal('show');
               $.ajax({
                     url: 'ResultMap.php?MapName='+marker.get("name"),
                     dataType: 'html',
@@ -48,7 +49,6 @@ function initMap() {
                 })
                 .done(function() {
                     document.getElementById('MFM').src = 'ResultMap.php?MapName='+marker.get("name");
-                    $(myModal).modal('show');
                     console.log("success");
                 })
                 .fail(function() {
@@ -59,13 +59,13 @@ function initMap() {
 
     }
 
-    
+
 }
 
 function getInfoCallback(map, content) {
     var infowindow = new google.maps.InfoWindow({content: content});
     return function() {
-            infowindow.setContent(content); 
+            infowindow.setContent(content);
             infowindow.open(map, this);
         };
 }
@@ -80,38 +80,38 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 
 function mapName(name) {
 	var AmnatCharoen={lat:15.86568,lng:104.62578},
-	AngThong={lat:14.58961,lng:100.45505},
+	Ang_Thong={lat:14.58961,lng:100.45505},
 	Ayutthaya={lat:14.35321,lng:100.56896},
-    AroundBangkok={lat:13.733263,lng:100.703071},
+	AroundBangkok={lat:13.733263,lng:100.703071},
 	Bangkok={lat:13.75633,lng:100.50177},
 	BuengKan={lat:18.36091,lng:103.64645},
 	BuriRam={lat:14.993,lng:103.10292},
 	Chachoengsao={lat:13.69042,lng:101.07796},
-	ChaiNat={lat:15.1852,lng:100.12513},
+	Chai_Nat={lat:15.1852,lng:100.12513},
 	Chaiyaphum={lat:15.80682,lng:102.0315},
 	Chanthaburi={lat:12.61134,lng:102.10385},
-	ChiangMai={lat:18.70606,lng:98.98172},
-	ChiangRai={lat:19.90717,lng:99.83096},
-	ChonBuri={lat:13.36114,lng:100.98467},
+	Chiang_Mai={lat:18.70606,lng:98.98172},
+	Chiang_Rai={lat:19.90717,lng:99.83096},
+	Chonburi={lat:13.36114,lng:100.98467},
 	Chumphon={lat:10.49305,lng:99.18002},
 	Kalasin={lat:16.43141,lng:103.50588},
 	KamphaengPhet={lat:16.48278,lng:99.52266},
 	Kanchanaburi={lat:14.02278,lng:99.53281},
-	KhonKaen={lat:16.44194,lng:102.83599},
+	Khon_Kaen={lat:16.44194,lng:102.83599},
 	Krabi={lat:8.0863,lng:98.90628},
 	Lampang={lat:18.28884,lng:99.49087},
 	Lampoon={lat:18.57446,lng:99.00872},
 	Loei={lat:17.48602,lng:101.7223},
-	LopBuri={lat:14.79951,lng:100.65337},
-	MaeHongSon={lat:19.30203,lng:97.96544},
+	Lopburi={lat:14.79951,lng:100.65337},
+	Mae_Hong_Son={lat:19.30203,lng:97.96544},
 	MahaSarakham={lat:16.0132,lng:103.16152},
 	Mukdahan={lat:16.56957,lng:104.52312},
 	Nakornnayok={lat:14.20695,lng:101.21305},
 	NakhonPathom={lat:13.81992,lng:100.06217},
 	NakhonPhanom={lat:17.39204,lng:104.76955},
-	NakhonRatchasima={lat:14.9799,lng:102.09777},
-	NakhonSawan={lat:15.69301,lng:100.12256},
-	NakhonSiThammarat={lat:8.4304,lng:99.96312},
+	Nakhon_Ratchasima={lat:14.9799,lng:102.09777},
+	Nakornsawan={lat:15.69301,lng:100.12256},
+	Nakhon_Si_Thammarat={lat:8.4304,lng:99.96312},
 	Nan={lat:18.77563,lng:100.77304},
 	Narathiwat={lat:6.42546,lng:101.82531},
 	NongBuaLamphu={lat:17.22182,lng:102.42604},
@@ -129,7 +129,7 @@ function mapName(name) {
 	Phrae={lat:18.14458,lng:100.14028},
 	Phuket={lat:7.95193,lng:98.33809},
 	Phrachinburi={lat:14.04207,lng:101.66009},
-	PrachuapKhiriKhan={lat:11.81237,lng:99.79733},
+	Prachuap_Khiri_Khan={lat:11.81237,lng:99.79733},
 	Ranong={lat:9.95287,lng:98.60846},
 	Rajchaburi={lat:13.52829,lng:99.81342},
 	Rayong={lat:12.70743,lng:101.14735},
@@ -138,21 +138,21 @@ function mapName(name) {
 	SakonNakhon={lat:17.1546,lng:104.13484},
 	Samutprakarn={lat:13.5991,lng:100.59983},
 	SamutSakhon={lat:13.54752,lng:100.2744},
-	SamutSongkhram={lat:13.40982,lng:100.00226},
+	Samutsongkhram={lat:13.40982,lng:100.00226},
 	Saraburi={lat:14.52892,lng:100.91014},
 	Satun={lat:6.62382,lng:100.06737},
-	SingBuri={lat:14.89363,lng:100.39673},
+	Singburi={lat:14.89363,lng:100.39673},
 	SiSaKet={lat:15.1186,lng:104.32201},
 	Songkhla={lat:7.1756,lng:100.61435},
 	Sukhothai={lat:17.00556,lng:99.82637},
-	SuphanBuri={lat:14.47449,lng:100.11771},
-	SuratThani={lat:9.13824,lng:99.32175},
+	Suphanburi={lat:14.47449,lng:100.11771},
+	Surat_Thani={lat:9.13824,lng:99.32175},
 	Surin={lat:14.8829,lng:103.49371},
 	Tak={lat:16.88399,lng:99.12585},
 	Trang={lat:7.55939,lng:99.61101},
 	Trat={lat:12.24276,lng:102.51747},
-	UbonRatchathani={lat:15.22869,lng:104.85642},
-	UdonThani={lat:17.41384,lng:102.78723},
+	Ubon_Ratchathani={lat:15.22869,lng:104.85642},
+	Udon_Thani={lat:17.41384,lng:102.78723},
 	UthaiThani={lat:15.3835,lng:100.02455},
 	Uttaradit={lat:17.62009,lng:100.09929},
 	Yala={lat:6.54115,lng:101.28039},
@@ -163,7 +163,7 @@ function mapName(name) {
             return AmnatCharoen;
                 break;
         case"Ang Thong":
-            return AngThong;
+            return Ang_Thong;
                 break;
         case"AroundBangkok":
             return AroundBangkok;
@@ -184,7 +184,7 @@ function mapName(name) {
             return Chachoengsao;
                 break;
         case"Chai Nat":
-            return ChaiNat;
+            return Chai_Nat;
                 break;
         case"Chaiyaphum":
             return Chaiyaphum;
@@ -193,13 +193,13 @@ function mapName(name) {
             return Chanthaburi;
                 break;
         case"Chiang Mai":
-            return ChiangMai;
+            return Chiang_Mai;
                 break;
         case"Chiang Rai":
-            return ChiangRai;
+            return Chiang_Rai;
                 break;
-        case"ChonBuri":
-            return ChonBuri;
+        case"Chonburi":
+            return Chonburi;
                 break;
         case"Chumphon":
             return Chumphon;
@@ -214,7 +214,7 @@ function mapName(name) {
             return Kanchanaburi;
                 break;
         case"Khon Kaen":
-            return KhonKaen;
+            return Khon_Kaen;
                 break;
         case"Krabi":
             return Krabi;
@@ -228,11 +228,11 @@ function mapName(name) {
         case"Loei":
         	return Loei
                 break;
-        case"LopBuri":
-        	return LopBuri;
+        case"Lopburi":
+        	return Lopburi;
                 break;
         case"Mae Hong Son":
-        	return MaeHongSon;
+        	return Mae_Hong_Son;
                 break;
         case"Maha Sarakham":
         	return MahaSarakham;
@@ -250,13 +250,13 @@ function mapName(name) {
         	return NakhonPhanom;
                 break;
         case"Nakhon Ratchasima":
-        	return NakhonRatchasima;
+        	return Nakhon_Ratchasima;
                 break;
-        case"Nakhon Sawan":
-        	return NakhonSawan;
+        case"Nakornsawan":
+        	return Nakornsawan;
                 break;
         case"Nakhon Si Thammarat":
-        	return NakhonSiThammarat;
+        	return Nakhon_Si_Thammarat;
                 break;
         case"Nan":
         	return Nan;
@@ -310,7 +310,7 @@ function mapName(name) {
         	return Phrachinburi;
                 break;
         case"Prachuap Khiri Khan":
-        	return PrachuapKhiriKhan;
+        	return Prachuap_Khiri_Khan;
                 break;
         case"Ranong":
         	return Ranong;
@@ -336,8 +336,8 @@ function mapName(name) {
         case"Samut Sakhon":
         	return SamutSakhon;
                 break;
-        case"Samut Songkhram":
-        	return SamutSongkhram;
+        case"Samutsongkhram":
+        	return Samutsongkhram;
                 break;
         case"Saraburi":
         	return Saraburi;
@@ -345,8 +345,8 @@ function mapName(name) {
         case"Satun":
         	return Satun;
                 break;
-        case"SingBuri":
-        	return SingBuri;
+        case"Singburi":
+        	return Singburi;
                 break;
         case"Si Sa Ket":
         	return SiSaKet;
@@ -357,11 +357,11 @@ function mapName(name) {
         case"Sukhothai":
         	return Sukhothai;
                 break;
-        case"SuphanBuri":
-        	return SuphanBuri;
+        case"Suphanburi":
+        	return Suphanburi;
                 break;
         case"Surat Thani":
-        	return SuratThani;
+        	return Surat_Thani;
                 break;
         case"Surin":
         	return Surin;
@@ -376,10 +376,10 @@ function mapName(name) {
         	return Trat;
                 break;
         case"Ubon Ratchathani":
-        	return UbonRatchathani;
+        	return Ubon_Ratchathani;
                 break;
         case"Udon Thani":
-        	return UdonThani;
+        	return Udon_Thani;
                 break;
         case"Uthai Thani":
         	return UthaiThani;
