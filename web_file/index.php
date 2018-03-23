@@ -56,6 +56,19 @@
                 z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
                 cursor: pointer; /* Add a pointer on hover */
             }
+            #overlay2 {
+                position: fixed; /* Sit on top of the page content */
+                display: none; /* Hidden by default */
+                width: 100%; /* Full width (cover the whole page) */
+                height: 100%; /* Full height (cover the whole page) */
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+                z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+                cursor: pointer; /* Add a pointer on hover */
+            }
             #title-name{
                 position: absolute;
                 top: 50%;
@@ -102,21 +115,6 @@
                 transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
             }
 
-            /* The navigation menu links */
-            .sidenav a {
-                padding: 8px 8px 8px 32px;
-                text-decoration: none;
-                font-size: 25px;
-                color: #818181;
-                display: block;
-                transition: 0.3s
-            }
-
-            /* When you mouse over the navigation links, change their color */
-            .sidenav a:hover, .offcanvas a:focus{
-                color: #f1f1f1;
-            }
-
             /* Position and style the close button (top right corner) */
             .sidenav .closebtn {
                 position: absolute;
@@ -126,24 +124,74 @@
                 margin-left: 50px;
             }
 
-            /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-            #main {
-                transition: margin-left .5s;
-                padding: 20px;
-            }
-
             /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
             @media screen and (max-height: 450px) {
                 .sidenav {padding-top: 15px;}
                 .sidenav a {font-size: 18px;}
+            }
+
+
+            .dropdown-submenu {
+                position: relative;
+            }
+
+            .dropdown-submenu>.dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -6px;
+                margin-left: -1px;
+                -webkit-border-radius: 0 6px 6px 6px;
+                -moz-border-radius: 0 6px 6px;
+                border-radius: 0 6px 6px 6px;
+            }
+
+            .dropdown-submenu:hover>.dropdown-menu {
+                display: block;
+            }
+
+            .dropdown-submenu>a:after {
+                display: block;
+                content: " ";
+                float: right;
+                width: 0;
+                height: 0;
+                border-color: transparent;
+                border-style: solid;
+                border-width: 5px 0 5px 5px;
+                border-left-color: #ccc;
+                margin-top: 5px;
+                margin-right: -10px;
+            }
+
+            .dropdown-submenu:hover>a:after {
+                border-left-color: #fff;
+            }
+
+            .dropdown-submenu.pull-left {
+                float: none;
+            }
+
+            .dropdown-submenu.pull-left>.dropdown-menu {
+                left: -100%;
+                margin-left: 10px;
+                -webkit-border-radius: 6px 0 6px 6px;
+                -moz-border-radius: 6px 0 6px 6px;
+                border-radius: 6px 0 6px 6px;
             }
     </style>
     <!-- end -->
     </head>
     <body>
         <?php include("connect.php") ?>
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn">&times;</a>
+        <div id="mySidenav" class="sidenav ">
+            <div class="row">
+      				<table style="margin-bottom:0px">
+      					<tr>
+      						<td class="tableHover closebtn" href="javascript:void(0)"><center> <span class="justMenu glyphicon glyphicon-remove" style="color:#FFFFFF"></span> </center></td>
+      					</tr>
+      				</table>
+      			</div>
+
             <h2 style="color: #FFFFFF;"><center>Advanced Search</center></h2><hr>
             <form id="sert" name="sert" method="POST">
                 <h3 style="color: #FFFFFF;margin-left: 10px;">Province</h3>
@@ -151,10 +199,11 @@
                 <select name="SLpv" id="SLpv" class="form-control" style="margin-left: 10px;width: 220px">
                     <option value="">-- All --</option>
                     <?php
-                        $sql = "SELECT DISTINCT(loc) FROM main WHERE out_date='0' ORDER BY loc";
+                        //แสดงตัวเลือกจังหวัด
+                        $sql = "SELECT id,name FROM location ORDER BY name";
                         $result = $conn->query($sql);
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='".$row["loc"]."'>".$row["loc"]."</option>";
+                            echo "<option value='".$row["id"]."'>".$row["name"]."</option>";
                         }
                     ?>
                 </select>
@@ -164,10 +213,11 @@
                 <select name="SLjfunc" id="SLjfunc" class="form-control" style="margin-left: 10px;width: 220px">
                     <option value="">-- All --</option>
                     <?php
-                        $sql = "SELECT DISTINCT(jfunc) FROM main WHERE out_date='0' ORDER BY jfunc";
+                        //แสดงตัวเลือกประเภทงาน
+                        $sql = "SELECT id,name FROM jfunc  ORDER BY name";
                         $result = $conn->query($sql);
                         while($row = $result->fetch_assoc()) {
-                            echo "<option value='".$row["jfunc"]."'>".$row["jfunc"]."</option>";
+                            echo "<option value='".$row["id"]."'>".$row["name"]."</option>";
                         }
                     ?>
                 </select>
@@ -182,8 +232,48 @@
 <!------------------------------------------------ MAIN    -------------------------------------------->
         <div class="container">
             <div class="row">
-                <span id="" class="glyphicon glyphicon-stats justMenu" style="font-size: 24px;"><b>Statistic </b></span>
-                <span id="btn-nav" class="glyphicon glyphicon-search pull-right justMenu" style="font-size: 24px;"><b>Search</b>&nbsp</span>
+
+                  <div class="dropdown">
+                      <span id="dLabel" class="glyphicon glyphicon-stats justMenu dropdown-toggle" data-toggle="dropdown" style="font-size: 24px;"><b>Statistic </b></span>
+                		    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                          <li class="dropdown-header">None Conditionr</li>
+                          <li class="dropdown-submenu">
+                            <a>Job Function</a>
+                            <ul class="dropdown-menu">
+                              <li><a  href="#" id="NoneCon1" value="8" loc="staticDataJfunc.php" head="Job Function">1 Week</a></li>
+                              <li><a  href="#" id="NoneCon2" value="31" loc="staticDataJfunc.php" head="Job Function">1 Month</a></li>
+                              <li><a  href="#" id="NoneCon3" value="91" loc="staticDataJfunc.php" head="Job Function">3 Month</a></li>
+                            </ul>
+                          </li>
+                          <li class="dropdown-submenu">
+                            <a  href="#">Location</a>
+                            <ul class="dropdown-menu">
+                              <li><a  href="#" id="NoneCon4" value="8" loc="staticDataLoc.php" head="Location">1 Week</a></li>
+                              <li><a  href="#" id="NoneCon5" value="31" loc="staticDataLoc.php" head="Location">1 Month</a></li>
+                              <li><a  href="#" id="NoneCon6" value="91" loc="staticDataLoc.php" head="Location">3 Month</a></li>
+                            </ul>
+                          </li>
+                          <li class="divider"></li>
+                          <li class="dropdown-header">Condition</li>
+                          <li class="dropdown-submenu">
+                            <a  href="#">Job Function</a>
+                            <ul class="dropdown-menu">
+                              <li><a  href="#">1 Week</a></li>
+                              <li><a  href="#">1 Month</a></li>
+                              <li><a  href="#">3 Month</a></li>
+                            </ul>
+                          </li>
+                          <li class="dropdown-submenu">
+                            <a  href="#">Location</a>
+                            <ul class="dropdown-menu">
+                              <li><a  href="#">1 Week</a></li>
+                              <li><a  href="#">1 Month</a></li>
+                              <li><a  href="#">3 Month</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+                  <span id="btn-nav" class="glyphicon glyphicon-search pull-right justMenu" style="font-size: 24px;"><b>Search</b>&nbsp</span>
+                </div>
             </div>
             <div class="row">
                 <div id="map" style="border: 2px solid #000000;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
@@ -193,6 +283,9 @@
         <div id="overlay" onclick="off()">
             <div id="title-name">JobsDB Map</div>
         </div>
+        <div id="overlay2">
+            <div id="title-name">Please wait.</div>
+        </div>
         <script src="./system.js"></script>
         <script src="./province.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB7bPUBMzGNhJi-lju4_zyV-0eVAj8PBnk&callback=initMap"></script>
@@ -200,8 +293,9 @@
             var dataCounty=[];
         </script>
         <?php
+            //ดึงรายชื่อจังหวัดเพื่อโชว์จุดบนแผนที่
             $sumC=0;
-            $sql = "SELECT DISTINCT(loc) FROM main WHERE out_date='0'";
+            $sql = "SELECT name FROM location";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 // output data of each row
@@ -210,7 +304,7 @@
                     $sumC+=1;
         ?>
                     <script>
-                        dataCounty.push(String("<?php echo(trim($row["loc"]));?>"))
+                        dataCounty.push(String("<?php echo(trim($row["name"]));?>"))
                     </script>
         <?php
                 }
@@ -263,16 +357,45 @@
             <div class="modal-content" style="height: 100%;">
               <div class="modal-header" style="background-color: #B5B5B5">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><center style="font-size: 24px;color: #FFFFFF;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">RESULT</center></h4>
+                <h4 class="modal-title"><center id="textHead" style="font-size: 24px;color: #FFFFFF;text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">RESULT</center></h4>
               </div>
               <div style="padding: 0 0 0 0;height: 650px" class="modal-body">
-                <iframe id="MFS" style="width: 100%;height: 100%" frameBorder="0"  src=""></iframe>
+                <iframe id="MFST" style="width: 100%;height: 100%" frameBorder="0"  src=""></iframe>
               </div>
             </div>
 
           </div>
         </div>
+        <?php
+        //loop เลือก static แบบไม่มีเงื่อนไข
+          for ($i=1; $i <7 ; $i++) {
+        ?>
+          <script>
+            $("#NoneCon<?php echo $i ?>").click(function(event) {
+              days = $("#NoneCon<?php echo $i ?>").attr("value");
+              path = $("#NoneCon<?php echo $i ?>").attr("loc");
+              head = $("#NoneCon<?php echo $i ?>").attr("head");
+              console.log(days);
+              console.log(path);
+              document.getElementById("overlay2").style.display = 'inline';
+              $("#textHead").text(head);
+              document.getElementById('MFST').src = path+"?days="+days;
+              $.ajax({
+                url: path+'?days='+days,
+                type: 'GET',
+                dataType: 'html'
+              })
+              .done(function() {
+                document.getElementById("overlay2").style.display = 'none';
+                $(ModalForStatic).modal('show');
+                console.log("success!!!");
+              })
 
+            });
+          </script>
+        <?php
+          }
+        ?>
         <script>
             $(submit).click(function(event){
                 document.getElementById('MFS').src = "load.php";
@@ -286,6 +409,7 @@
                 }else {
                   //document.getElementById("bodyModalForS").innerHTML = "จังหวัด: "+pv +"สายอาชีพ: " + jf;
                   console.log(pv +" "+ jf)
+                  $(ModalForS).modal('show');
                   $.ajax({
                       url: 'tableResult.php?pv='+pv+'&jf='+jf,
                       dataType: 'html',
@@ -293,8 +417,6 @@
                   })
                   .done(function() {
                       document.getElementById('MFS').src = 'tableResult.php?pv='+pv+'&jf='+jf;
-                      $(ModalForS).modal('show');
-                      console.log("success");
                   })
                   .fail(function() {
                       console.log("error");
