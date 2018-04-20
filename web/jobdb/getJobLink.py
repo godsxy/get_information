@@ -48,7 +48,7 @@ def get_day(name):
 ##  เก็บลิ้งงานทุกแบบ
 ####################################
 
-url_to_scrape='http://th.jobsdb.com/th'
+url_to_scrape='https://th.jobsdb.com/th'
 r = requests.get(url_to_scrape)
 soup = BeautifulSoup(r.text,"lxml")
 jobs_links=[]
@@ -57,7 +57,7 @@ overDay=0
 data=soup.select("div[id='jobBrowserTabBody0'] li.browse-job-category div.job-category-wrapper")
 j=0
 for i in data:
-    jobs_links.append('http://th.jobsdb.com'+i.find('a')['href'].rsplit('/',1)[0]+'/')
+    jobs_links.append('https://th.jobsdb.com'+i.find('a')['href'].rsplit('/',1)[0]+'/')
     jobs_date.append(i.find('a').text.strip())
     j=j+1
 print("เจอทั้งหมด "+str(j)+ " อาชีพ")
