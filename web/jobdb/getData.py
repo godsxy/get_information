@@ -177,18 +177,13 @@ def ck_exist(cop,loc,time,jfunc):
     found = c.execute(sql,(cop,loc,time,jfunc))
     return found
 
-def getData(jobs_links,orderPage,orderMax,ODay):
+def getData(jobs_links,orderPage,orderMax):
     jobs_detail=[]
-    overDay=ODay
     #for job_link in jobs_links[35:38]:
     index = 1
     MaxDuplicate=0
     skip=0
     for job_link in reversed(jobs_links):
-        if(overDay>1):
-            overDay-=1
-            index = index+1
-            continue
         while True:
             try:
                 r = requests.get(job_link)

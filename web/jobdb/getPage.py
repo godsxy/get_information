@@ -18,7 +18,7 @@ import math
 ##
 ##
 
-def getPage(jobLink,orderPage,orderMax,day,overDay):
+def getPage(jobLink,orderPage,orderMax,day):
     days=day
     yday=datetime.now() - timedelta(days)
     tday=datetime.now()
@@ -90,4 +90,4 @@ def getPage(jobLink,orderPage,orderMax,day,overDay):
 
     #print(len(jobs_links))
     print("เริ่มทำการดูดข้อมูลมีทั้งหมด "+str(sumjob)+" อาชีพ")
-    getData.getData(jobs_links,orderPage,orderMax,overDay)
+    getData.getData(jobs_links,orderPage,orderMax)
