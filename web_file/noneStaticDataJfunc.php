@@ -42,10 +42,10 @@
 		<script type="text/javascript">
 			listPv=['x'];
 			listCop=['Company (1:20)'];
-			listJF=['JobFunction'];
+			listJF=['Location'];
 			reslutCop=['Company (1:20)'];
-			reslutJF=['JobFunction'];
-			reslutPv=['x'];
+			reslutPv=['Location'];
+			reslutJF=['x'];
 		</script>
     <table class="table">
 			<td class="tableHover" id="reset"><center> <span class="glyphicon glyphicon-repeat"></span> </center></td>
@@ -60,17 +60,17 @@
             			} else {
             			 $day = 8;
             			}
-            			$sqlGetLoc = "SELECT * FROM location ORDER BY name";
+            			$sqlGetLoc = "SELECT * FROM jfunc ORDER BY name";
             			$resultLoc = $conn->query($sqlGetLoc);
                   $i=1;
             			while($row = $resultLoc->fetch_assoc()) {
 
             						ini_set('max_execution_time', 300);
-            						$sqlGetData = "SELECT COUNT(DISTINCT(jfunc)),COUNT(DISTINCT(cop_name)) FROM main WHERE curdate()<date_add(`time`,interval ".$day." day) AND `loc`='".$row['id']."'";
+            						$sqlGetData = "SELECT COUNT(DISTINCT(loc)),COUNT(DISTINCT(cop_name)) FROM main WHERE curdate()<date_add(`time`,interval ".$day." day) AND `jfunc`='".$row['id']."'";
             						$resultDaTa = $conn->query($sqlGetData);
             						while($row2 = $resultDaTa->fetch_assoc()) {
-            							$LocName=$row['name'];
-            							$Jfunc=$row2['COUNT(DISTINCT(jfunc))'];
+            							$jfuncName=$row['name'];
+            							$LocSum=$row2['COUNT(DISTINCT(loc))'];
             							$CopSum=$row2['COUNT(DISTINCT(cop_name))']/20;
 													if ($LocSum+$CopSum==0) {
 													}
@@ -79,8 +79,8 @@
 		                        $i++;
             				?>
             							<script type="text/javascript">
-            								listPv.push('<?php echo $LocName; ?>');
-            								listJF.push('<?php echo $Jfunc; ?>');
+            								listPv.push('<?php echo $jfuncName; ?>');
+            								listJF.push('<?php echo $LocSum; ?>');
             								listCop.push('<?php echo $CopSum; ?>');
             							</script>
             				<?php
@@ -90,7 +90,7 @@
             		?>
               </select>
             </td>
-    				<td class="tableHover" id="add"><center> <span class="glyphicon glyphicon-plus"></span> </center></td>
+    		<td class="tableHover" id="add"><center> <span class="glyphicon glyphicon-plus"></span> </center></td>
     		<td class="tableHover" id="sortMin"><center><span class="glyphicon glyphicon-sort-by-attributes"></span></center></td>
     		<td class="tableHover" id="sortMax"><center><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></center></td>
          </div>
@@ -113,15 +113,15 @@
 					onclick: function(d) {
 						rIndex=d.index+1;
 						if (rIndex > -1) {
-						    reslutPv.splice(rIndex, 1);
+						    reslutJF.splice(rIndex, 1);
 								reslutCop.splice(rIndex, 1);
-								reslutJF.splice(rIndex, 1);
+								reslutPv.splice(rIndex, 1);
 								doneList.splice(rIndex-1, 1);
 								if(doneList.length ==0){
 									chart.load({
 										x : 'x',
 									columns: [],
-									unload: [reslutPv[0], reslutCop[0],reslutJF[0]],
+									unload: [reslutJF[0], reslutCop[0],reslutPv[0]],
 									type: 'bar',
 									labels: true
 									});
@@ -129,9 +129,9 @@
 								else {
 									chart.load({
 									columns: [
-										reslutPv,
-										reslutCop,
 										reslutJF,
+										reslutCop,
+										reslutPv,
 									]
 									});
 								}
@@ -140,6 +140,9 @@
           type: 'bar',
 					labels: true
         },
+				tooltip: {
+					show: false
+				},
         axis:{
             x:{
                 type:"category",
@@ -147,9 +150,6 @@
                 height: 50,
             },
         },
-				tooltip: {
-					show: false
-				},
         transition: {
           duration: 100
         }
@@ -165,20 +165,20 @@
 				}
         if (notDup == 0) {
           reslutCop.push(listCop[loc])
-          reslutJF.push(listJF[loc])
-					reslutPv.push(listPv[loc])
+          reslutPv.push(listJF[loc])
+		  reslutJF.push(listPv[loc])
           doneList.push(loc);
           chart.load({
           columns: [
-						reslutPv,
+						reslutJF,
   					reslutCop,
-  					reslutJF,
+  					reslutPv,
           ],
 					type: 'bar',
 					labels: true
       		});
         }else {
-					showAR = document.getElementById("alert");
+		  showAR = document.getElementById("alert");
           showAR.style.display = "block";
         }
 
@@ -186,15 +186,17 @@
 			$("#reset").click(function(event) {
 				doneList=[];
 				reslutCop=['Company (1:20)'];
-				reslutJF=['JobFunction'];
-				reslutPv=['x'];
+				reslutPv=['Location'];
+				reslutJF=['x'];
 				chart.load({
 					x : 'x',
 				columns: [],
-				unload: [reslutPv[0], reslutCop[0],reslutJF[0]],
+				unload: [reslutJF[0], reslutCop[0],reslutPv[0]],
 				type: 'bar',
 				labels: true
 				});
+				sortType=0;
+				swapType=0;
 			});
 			var sortType=0;
 			var swapType=0;
@@ -211,18 +213,18 @@
 				}
 				if (sortType==0) {
 					for (var j = 0; j < reslutCop.length; j++){
-					    list.push({'pv': reslutPv[j], 'cop': reslutCop[j]*20});
-					    list2.push({'pv': reslutPv[j], 'jf': reslutJF[j]});
+					    list.push({'jf': reslutJF[j], 'cop': reslutCop[j]*20});
+					    list2.push({'jf': reslutJF[j], 'pv': reslutPv[j]});
 					}
 					//2) sort:
-					list.sort(function(a, b) {return ((a.pv < b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
-					list2.sort(function(a, b) {return ((a.pv < b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
+					list.sort(function(a, b) {return ((a.jf < b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
+					list2.sort(function(a, b) {return ((a.jf < b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
 
 					//3) separate them back out:
 					for (var k = 0; k < list.length; k++) {
 					    reslutCop[k] = list[k].cop/20;
-					    reslutPv[k] = list[k].pv;
-					    reslutJF[k] = list2[k].jf;
+					    reslutPv[k] = list2[k].pv;
+					    reslutJF[k] = list[k].jf;
 					}
 					sortType++;
 					document.getElementById("textSort").innerHTML = "Min To Max Base on JobFunction";
@@ -250,18 +252,18 @@
           			showARS.style.display = "block";
 				}else{
 					for (var j = 0; j < reslutCop.length; j++){
-					    list.push({'jf': reslutJF[j]*1, 'cop': reslutCop[j]*20});
-					    list2.push({'jf': reslutJF[j]*1, 'pv': reslutPv[j]});
+					    list.push({'pv': reslutPv[j]*1, 'cop': reslutCop[j]*20});
+					    list2.push({'pv': reslutPv[j]*1, 'jf': reslutJF[j]});
 					}
 					//2) sort:
-					list.sort(function(a, b) {return ((a.jf < b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
-					list2.sort(function(a, b) {return ((a.jf < b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
+					list.sort(function(a, b) {return ((a.pv < b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
+					list2.sort(function(a, b) {return ((a.pv < b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
 
 					//3) separate them back out:
 					for (var k = 0; k < list.length; k++) {
 					    reslutCop[k] = list[k].cop/20;
-					    reslutPv[k] = list2[k].pv;
-					    reslutJF[k] = list[k].jf;
+					    reslutPv[k] = list[k].pv;
+					    reslutJF[k] = list2[k].jf;
 					}
 					sortType=0;
 					document.getElementById("textSort").innerHTML = "Min To Max Base on Location";
@@ -269,8 +271,8 @@
           			showARS.style.display = "block";
 				}
 				reslutCop.unshift('Company (1:20)');
-				reslutPv.unshift('x');
-				reslutJF.unshift('JobFunction');
+				reslutPv.unshift('Location');
+				reslutJF.unshift('x');
 				chart.load({
 		          columns: [
 							reslutJF,
@@ -294,18 +296,18 @@
 				}
 				if (sortType==0) {
 					for (var j = 0; j < reslutCop.length; j++){
-					    list.push({'pv': reslutPv[j], 'cop': reslutCop[j]*20});
-					    list2.push({'pv': reslutPv[j], 'jf': reslutJF[j]});
+					    list.push({'jf': reslutJF[j], 'cop': reslutCop[j]*20});
+					    list2.push({'jf': reslutJF[j], 'pv': reslutPv[j]});
 					}
 					//2) sort:
-					list.sort(function(a, b) {return ((a.pv > b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
-					list2.sort(function(a, b) {return ((a.pv > b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
+					list.sort(function(a, b) {return ((a.jf > b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
+					list2.sort(function(a, b) {return ((a.jf > b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
 
 					//3) separate them back out:
 					for (var k = 0; k < list.length; k++) {
 					    reslutCop[k] = list[k].cop/20;
-					    reslutPv[k] = list[k].pv;
-					    reslutJF[k] = list2[k].jf;
+					    reslutPv[k] = list2[k].pv;
+					    reslutJF[k] = list[k].jf;
 					}
 					sortType++;
 					document.getElementById("textSort").innerHTML = "Max To Min Base on JobFunction";
@@ -332,18 +334,18 @@
           			showARS.style.display = "block";
 				}else{
 					for (var j = 0; j < reslutCop.length; j++){
-					    list.push({'jf': reslutJF[j]*1, 'cop': reslutCop[j]*20});
-					    list2.push({'jf': reslutJF[j]*1, 'pv': reslutPv[j]});
+					    list.push({'pv': reslutPv[j]*1, 'cop': reslutCop[j]*20});
+					    list2.push({'pv': reslutPv[j]*1, 'jf': reslutJF[j]});
 					}
 					//2) sort:
-					list.sort(function(a, b) {return ((a.jf > b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
-					list2.sort(function(a, b) {return ((a.jf > b.jf) ? -1 : ((a.jf == b.jf) ? 0 : 1));});
+					list.sort(function(a, b) {return ((a.pv > b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
+					list2.sort(function(a, b) {return ((a.pv > b.pv) ? -1 : ((a.pv == b.pv) ? 0 : 1));});
 
 					//3) separate them back out:
 					for (var k = 0; k < list.length; k++) {
 					    reslutCop[k] = list[k].cop/20;
-					    reslutPv[k] = list2[k].pv;
-					    reslutJF[k] = list[k].jf;
+					    reslutPv[k] = list[k].pv;
+					    reslutJF[k] = list2[k].jf;
 					}
 					sortType=0;
 					document.getElementById("textSort").innerHTML = "Max To Min Base on Location";
@@ -351,8 +353,8 @@
           			showARS.style.display = "block";
 				}
 				reslutCop.unshift('Company (1:20)');
-				reslutPv.unshift('x');
-				reslutJF.unshift('JobFunction');
+				reslutPv.unshift('Location');
+				reslutJF.unshift('x');
 				chart.load({
 		          columns: [
 							reslutJF,
