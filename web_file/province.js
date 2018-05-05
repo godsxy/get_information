@@ -1,7 +1,6 @@
 /*
 	setting data
  */
-
 $(document).ready(function() {
     initMap();
 });
@@ -58,8 +57,6 @@ function initMap() {
           })(marker, i));
 
     }
-
-
 }
 
 function getInfoCallback(map, content) {
