@@ -88,27 +88,47 @@
 	                ?>
                 </tbody>
 			</table>
-			<ul class="pagination">
-		 <li>
-		 <?php
-		 	if ($page >1) {
-		 		$back = $page-1;?>
-				<a style='margin-left: 5px' href='<?php echo $PHP_SELF ?>?page=<?php echo 1 ?>&MapName=<?php echo $MapName ?>'><span aria-hidden='true' class="glyphicon glyphicon-fast-backward"></span></a>
-				<a style='margin-left: 5px' href='<?php echo $PHP_SELF ?>?page=<?php echo $back ?>&MapName=<?php echo $MapName ?>'><span aria-hidden='true' class="glyphicon glyphicon-triangle-left"></span></a>
-		 	<?php }
-		 ?>
-		 </li>
-		 <li><?php echo "<span style='margin-left: 5px' aria-hidden='true'>".$page."</span>"; ?></li>
-		 <li>
-		 <?php
-		 	if($page < $totalPage) {
-		 	    $next = $page +1; ?>
-					<a style='margin-left: 5px' href='<?php echo $PHP_SELF ?>?page=<?php echo $next ?>&MapName=<?php echo $MapName ?>'><span aria-hidden='true' class="glyphicon glyphicon-triangle-right"></span></a>
-					<a style='margin-left: 5px' href='<?php echo $PHP_SELF ?>?page=<?php echo $totalPage ?>&MapName=<?php echo $MapName ?>'><span aria-hidden='true' class="glyphicon glyphicon-fast-forward"></span></a>
-		 <?php	}
-		 ?>
-		 </li>
+		<ul class=" pager">
+		<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+			 <li style="float: right;">
+			 <?php
+			 	if ($page >1) {
+			 		$back = $page-1;?>
+					<a href='<?php echo $PHP_SELF ?>?page=<?php echo $back ?>&MapName=<?php echo $MapName ?>'>Previous</a>
+			 	<?php }
+			 ?>
+			 </li>
+		 </div>
+		 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+			<li><div class="input-group">
+			      <input id="getPage" type="number" min="1" max="<?php echo $totalPage ?>" class="form-control" placeholder="<?php echo $page ?>/<?php echo $totalPage ?>">
+				      <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" id="summitPage">Go!</button>
+				      </span>
+			      
+			</div></li>
+		</div>
+		<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+			 <li style="float: left;">
+			 <?php
+			 	if($page < $totalPage) {
+			 	    $next = $page +1; ?>
+						<a href='<?php echo $PHP_SELF ?>?page=<?php echo $next ?>&MapName=<?php echo $MapName ?>'>Next</a>
+			 <?php	}
+			 ?>
+			 </li>
+		 </div>
 		 </ul>
 		</div>
+		<script type="text/javascript">
+			$("#summitPage").click(function(event){
+				getPage = document.getElementById("getPage").value;
+				if (getPage >= 1) {
+					if(getPage <= '<?php echo $totalPage ?>'){
+					window.location = '<?php echo $PHP_SELF ?>?page='+getPage+'&MapName=<?php echo $MapName ?>';
+					}
+				}
+			});
+		</script>
 	</body>
 </html>
