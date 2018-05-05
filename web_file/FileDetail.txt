@@ -1,0 +1,22 @@
+connrct.php
+	ไฟล์เชื่อมต่อเข้า php
+detail.php
+	ไฟล์แสดงข้อมูลรายละเอียดของงาน
+index.php
+	ไฟล์หน้าหลัก
+load.php
+	แสดงอิเมชั่นโหลด กลมๆ หมุนๆ
+nonStaticData____.php
+	เทียบกราฟแบบเลือกเอง
+province.js
+	เซ็ตจุดบนmap
+ResultMap.php
+	แสดงรายชื่องานเป็นตารางจากจุดบนแผนที่
+staticData___.php
+	แสดงกราฟแบบเรียงตามข้อมูล
+system.js 
+	กำหนดข้อมูลบางอย่าง
+tableResult.php
+	แสดงข้อมูลตารางจากเมนูด้านข้าง
+topFive.php
+	แสดง top5
