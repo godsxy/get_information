@@ -108,7 +108,7 @@ def get_loc(soup):
         return get_idInDB(tempLoc,"location")
 
 def get_detail(soup):
-    data=soup.select("div.jobad-primary-details span[itemprop='description']")
+    data=soup.select("div.jobad-primary-details")
     for i in data:
         return "<br>".join(i.text.strip().replace('\xa0','').splitlines())
 
@@ -121,7 +121,7 @@ def get_lvEmp(soup):
         return "-"
 
 def get_edu(soup):
-    data=soup.select("span[itemprop='educationRequirements']")
+    data=soup.select("p.meta-item.primary-meta-edu.col-xs-9 span")
     if data != []:
         for i in data:
             if i.text.strip() not in "(N/A)":
@@ -145,13 +145,13 @@ def get_jfunc(soup):
         return get_idInDB(i.text.strip(),"jfunc")
 
 def get_indus(soup):
-    data=soup.select("div.meta-industry p[itemprop='industry']")
+    data=soup.select("div.primary-meta-box.row.meta-industry p a")
     for i in data:
         return i.text.strip()
 
 def get_time(soup):
     try:
-        data=soup.select("meta[itemprop='datePosted']")
+        data=soup.select("div.primary-general-box.general-data meta")
         for i in data:
             tempDates=i.get('content')
             #mon=strptime(tempDates[3:6],'%b').tm_mon
