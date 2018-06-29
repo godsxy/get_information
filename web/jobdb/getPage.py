@@ -57,7 +57,7 @@ def getPage(jobLink,orderPage,orderMax,day):
                 time.sleep(30)
                 continue
         soup = BeautifulSoup(r.text,"lxml")
-        data=soup.select("meta[itemprop='datePosted']")
+        data=soup.select("div.job-quickinfo meta")
         for i in data:
             TempDates = i.get('content')
             #mon=strptime(TempDates[5:7],'%m').tm_mon
