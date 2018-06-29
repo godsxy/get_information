@@ -69,8 +69,8 @@ for i in data:
 print("เจอทั้งหมด "+str(j)+ " อาชีพ")
 index_page=0
 for i in jobs_links:
-    print("ลิ้งอาชีพที่ทำอยู่ "+i +"อันที่ "+ str(index_page+1))
+    print("ลิ้งอาชีพที่ทำอยู่ "+i +" อันที่ "+ str(index_page+1))
     day=get_day(jobs_date[index_page])
-    print(day)
+    #print(str(day[0])+" From gJL")
     getPage.getPage(i,str(index_page+1),str(j),day[0])
     index_page=index_page+1
