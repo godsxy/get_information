@@ -5,7 +5,7 @@ main.py ไฟล์หลักที่ใช้เริ่มการทำ
 by Sorapunya Insala
 """
 
-from project_end.web.jobdb import getJobLink
+import getJobLink
 
 getJobLink
 print("Information Gathering...DONE")

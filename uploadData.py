@@ -6,7 +6,7 @@ Ver 1.0
 by Sorapunya Insala
 """
 import pymysql
-from project_end import conDB
+import conDB
 
 def uploadToSql(jobs_detail):
     db=conDB.conDB()

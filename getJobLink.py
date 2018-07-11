@@ -5,11 +5,11 @@ getJobLink.py เอาไว้สำหรับเก็บลิ้งต่
 by Sorapunya Insala
 """
 import requests
-from project_end import conDB
+import conDB
 from bs4 import BeautifulSoup
 import time
 from datetime import datetime,timedelta
-from project_end.web.jobdb import getPage
+import getPage
 
 def get_day(name):
     finalReslut=[]

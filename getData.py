@@ -5,8 +5,8 @@ getData.py เอาไว้เก็บข้อมูลจากหน้า
 by Sorapunya Insala
 """
 import requests
-from project_end import uploadData
-from project_end import conDB
+import uploadData
+import conDB
 from datetime import datetime
 import time
 import pymysql

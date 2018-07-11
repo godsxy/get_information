@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import time
 import requests
 from bs4 import BeautifulSoup
-from project_end.web.jobdb import getData
+import getData
 import math
 
 ####################################
