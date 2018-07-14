@@ -97,9 +97,7 @@ def get_loc(soup):
 ,"Yala"
 ,"Yasothon"];
     tempLoc=""
-    data=soup.select("p[itemprop='jobLocation']")
-    if data == []:
-        data=soup.select("h3[itemprop='jobLocation'] a")
+    data=soup.select("a.loc-link")
     for i in data:
         tempLoc = i.text.split(" >")[0].strip()
     if tempLoc not in AllLocation:
