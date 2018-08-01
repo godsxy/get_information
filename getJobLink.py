@@ -58,19 +58,19 @@ url_to_scrape='https://th.jobsdb.com/th'
 r = requests.get(url_to_scrape)
 soup = BeautifulSoup(r.text,"lxml")
 jobs_links=[]
-jobs_date=[]
+jobs_name=[]
 overDay=0
 data=soup.select("div[id='jobBrowserTabBody0'] li.browse-job-category div.job-category-wrapper")
 j=0
 for i in data:
     jobs_links.append('https://th.jobsdb.com'+i.find('a')['href'].rsplit('/',1)[0]+'/')
-    jobs_date.append(i.find('a').text.strip())
+    jobs_name.append(i.find('a').text.strip())
     j=j+1
 print("เจอทั้งหมด "+str(j)+ " อาชีพ")
 index_page=0
 for i in jobs_links:
     print("ลิ้งอาชีพที่ทำอยู่ "+i +" อันที่ "+ str(index_page+1))
-    day=get_day(jobs_date[index_page])
+    day=get_day(jobs_name[index_page])
     #print(str(day[0])+" From gJL")
     getPage.getPage(i,str(index_page+1),str(j),day[0])
     index_page=index_page+1
