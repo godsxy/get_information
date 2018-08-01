@@ -7,5 +7,6 @@ by Sorapunya Insala
 
 import getJobLink
 
+print("Start Gathering Information From JobDB ...")
 getJobLink
 print("Information Gathering...DONE")
