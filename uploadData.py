@@ -5,7 +5,6 @@ ThisFileDetail="""
 Ver 1.0
 by Sorapunya Insala
 """
-import pymysql
 import conDB
 
 def uploadToSql(jobs_detail):
