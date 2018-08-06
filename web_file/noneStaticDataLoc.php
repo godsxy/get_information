@@ -225,7 +225,7 @@
 					    reslutJF[k] = list2[k].jf;
 					}
 					sortType++;
-					document.getElementById("textSort").innerHTML = "Min To Max Base on JobFunction";
+					document.getElementById("textSort").innerHTML = "Sort Name";
 					showARS = document.getElementById("alertSort");
           			showARS.style.display = "block";
 
@@ -264,7 +264,7 @@
 					    reslutJF[k] = list[k].jf;
 					}
 					sortType=0;
-					document.getElementById("textSort").innerHTML = "Min To Max Base on Location";
+					document.getElementById("textSort").innerHTML = "Min To Max Base on JobFunction";
 					showARS = document.getElementById("alertSort");
           			showARS.style.display = "block";
 				}
@@ -308,7 +308,7 @@
 					    reslutJF[k] = list2[k].jf;
 					}
 					sortType++;
-					document.getElementById("textSort").innerHTML = "Max To Min Base on JobFunction";
+					document.getElementById("textSort").innerHTML = "Sort Name";
 					showARS = document.getElementById("alertSort");
           			showARS.style.display = "block";
 				}else if(sortType==1){
@@ -346,7 +346,7 @@
 					    reslutJF[k] = list[k].jf;
 					}
 					sortType=0;
-					document.getElementById("textSort").innerHTML = "Max To Min Base on Location";
+					document.getElementById("textSort").innerHTML = "Max To Min Base on JobFunction";
 					showARS = document.getElementById("alertSort");
           			showARS.style.display = "block";
 				}

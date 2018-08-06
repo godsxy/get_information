@@ -227,7 +227,7 @@
 					    reslutJF[k] = list[k].jf;
 					}
 					sortType++;
-					document.getElementById("textSort").innerHTML = "Min To Max Base on JobFunction";
+					document.getElementById("textSort").innerHTML = "Sort Name";
 					showARS = document.getElementById("alertSort");
           			showARS.style.display = "block";
 
@@ -310,7 +310,7 @@
 					    reslutJF[k] = list[k].jf;
 					}
 					sortType++;
-					document.getElementById("textSort").innerHTML = "Max To Min Base on JobFunction";
+					document.getElementById("textSort").innerHTML = "Sort Name";
 					showARS = document.getElementById("alertSort");
           			showARS.style.display = "block";
 				}else if(sortType==1){
