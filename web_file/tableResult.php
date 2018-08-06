@@ -37,20 +37,20 @@
 			                else{
 			                	$sql = "SELECT `id`,`j_name`, `cop_name`,`time`, `loc`, `jfunc`, `indus` FROM `main` WHERE curdate()<date_add(`time`,interval 8 day) AND `jfunc`='$JFname' ORDER BY `time` DESC,`jfunc`,`loc`";
 			                }
-        }
-        else{
-              if($_GET['pv'] != ""){
-                	$pv=$_GET['pv'];
-                	$sql = "SELECT `id`,`j_name`, `cop_name`,`time`, `loc`, `jfunc`, `indus` FROM `main` WHERE curdate()<date_add(`time`,interval 8 day) AND `loc`='$pv' ORDER BY `time` DESC,`jfunc`,`loc`";
-                }
-          }
-          $query = $conn->query($sql);
-          $NumCount = mysqli_num_rows($query);
-          $totalPage= ceil($NumCount / $pagelen);
-          $goto = ($page-1) * $pagelen;
-          $SelectData = $sql." LIMIT $goto, $pagelen";
-        	$QueryData  = $conn->query($SelectData);
-          if ($QueryData->num_rows > 0) {
+			}
+			else{
+				if($_GET['pv'] != ""){
+						$pv=$_GET['pv'];
+						$sql = "SELECT `id`,`j_name`, `cop_name`,`time`, `loc`, `jfunc`, `indus` FROM `main` WHERE curdate()<date_add(`time`,interval 8 day) AND `loc`='$pv' ORDER BY `time` DESC,`jfunc`,`loc`";
+					}
+			}
+			$query = $conn->query($sql);
+			$NumCount = mysqli_num_rows($query);
+			$totalPage= ceil($NumCount / $pagelen);
+			$goto = ($page-1) * $pagelen;
+			$SelectData = $sql." LIMIT $goto, $pagelen";
+			$QueryData  = $conn->query($SelectData);
+			if ($QueryData->num_rows > 0) {
 		?>
 							<div class="table-responsive">
 								<table class="table table-hover" id="mainTable">
@@ -97,34 +97,35 @@
 	         ?>
                 </tbody>
 			</table>
+			<!---------------------- ส่วนของเมนูด้านล่างเว็บ ------------------------>
 			<ul class=" pager">
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-			<li style="float: right;">
-			<?php
-				if ($page >1) {
-					$back = $page-1;?>
-					<a style='margin-left: 5px' href='<?php echo $PHP_SELF?>?page=<?php echo $back ?>&jf=<?php echo $JFname ?>&pv=<?php echo $pv?>'>Previous</a>
-				<?php }
-			?>
-			</li></div>
-			<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-			<li><div class="input-group">
-			      <input id="getPage" type="number" min="1" max="<?php echo $totalPage ?>" class="form-control" placeholder="<?php echo $page ?>/<?php echo $totalPage ?>">
-				      <span class="input-group-btn">
-				        <button class="btn btn-default" type="button" id="summitPage">Go!</button>
-				      </span>
-			      
-			</div></li>
-			</div>
-			<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-			<li style="float: left;">
-			<?php
-				if($page < $totalPage) {
-				    $next = $page +1;?>
-						<a style='margin-left: 5px' href='<?php echo $PHP_SELF?>?page=<?php echo $next ?>&jf=<?php echo $JFname ?>&pv=<?php echo $pv?>'>Next</a>
-				<?php }
-			?>
-			</li></div>
+				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+				<li style="float: right;">
+				<?php
+					if ($page >1) {
+						$back = $page-1;?>
+						<a style='margin-left: 5px' href='<?php echo $PHP_SELF?>?page=<?php echo $back ?>&jf=<?php echo $JFname ?>&pv=<?php echo $pv?>'>Previous</a>
+					<?php }
+				?>
+				</li></div>
+				<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+				<li><div class="input-group">
+					<input id="getPage" type="number" min="1" max="<?php echo $totalPage ?>" class="form-control" placeholder="<?php echo $page ?>/<?php echo $totalPage ?>">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="button" id="summitPage">Go!</button>
+						</span>
+					
+				</div></li>
+				</div>
+				<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+				<li style="float: left;">
+				<?php
+					if($page < $totalPage) {
+						$next = $page +1;?>
+							<a style='margin-left: 5px' href='<?php echo $PHP_SELF?>?page=<?php echo $next ?>&jf=<?php echo $JFname ?>&pv=<?php echo $pv?>'>Next</a>
+					<?php }
+				?>
+				</li></div>
 			</ul>
 		</div>
 		<script type="text/javascript">
